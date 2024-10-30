@@ -29,19 +29,22 @@ jobs:
         id: check_commit_message
         run: |
           LAST_COMMIT_MESSAGE="${{ github.event.head_commit.message }}"
-          echo "Commit message: $LAST_COMMIT_MESSAGE"
+          echo "Commit message: \"$LAST_COMMIT_MESSAGE\""
           if [[ "$LAST_COMMIT_MESSAGE" != feat:\ * && "$LAST_COMMIT_MESSAGE" != fix:\ * && "$LAST_COMMIT_MESSAGE" != chore:\ * ]]; then
-            echo "ERROR: Prefix 'feat: ', 'fix: ' or 'chore: ' is missing from the commit message".
+            echo "ERROR: Prefix 'feat: ', 'fix: ' or 'chore: ' is missing from the commit message."
             exit 1
+          fi
         shell: bash
 
       - name: Guard - BREAKING CHANGE should not be in body
         id: check_breaking_change
         run: |
           LAST_COMMIT_MESSAGE="${{ github.event.head_commit.message }}"
+          echo "Commit message: \"$LAST_COMMIT_MESSAGE\""
           if [[ "$LAST_COMMIT_MESSAGE" == *"BREAKING CHANGE"* ]]; then
             echo "ERROR: Commit message should not include 'BREAKING CHANGE'."
             exit 1
+          fi
         shell: bash
 
       - name: Install pnpm
