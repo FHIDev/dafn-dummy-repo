@@ -7,7 +7,7 @@ const OUTPUT_DIRECTORY = 'dist';
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
-  if (!env?.DEPLOY_TARGET) {
+  if (!env.DEPLOY_TARGET) {
     console.log("No DEPLOY_TARGET specified, defaulting to 'npm'");
     env.DEPLOY_TARGET = 'npm';
   }
