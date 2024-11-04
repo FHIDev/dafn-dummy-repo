@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.0](https://github.com/FHIDev/dafn-dummy-repo/compare/v0.1.2...v0.2.0) (2024-11-04)
+
+
+### 🚀 Features
+
+* make sure to ping npm before creating changelog ([ce0a92d](https://github.com/FHIDev/dafn-dummy-repo/commit/ce0a92d95cfd7c6846d8805ad0ac270539274885))
+* test ([0fa2aeb](https://github.com/FHIDev/dafn-dummy-repo/commit/0fa2aebfcef1ef83b7f3e6c0c2754b82fe2c4511))
+
 ## [0.1.2](https://github.com/FHIDev/dafn-dummy-repo/compare/v0.1.1...v0.1.2) (2024-11-04)
 
 ## [0.1.1](https://github.com/FHIDev/dafn-dummy-repo/compare/v0.1.0...v0.1.1) (2024-11-04)
