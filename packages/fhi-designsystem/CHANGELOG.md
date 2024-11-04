@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.3.0](https://github.com/FHIDev/dafn-dummy-repo/compare/v0.2.0...v0.3.0) (2024-11-04)
+
+
+### 🚀 Features
+
+* teting pipeline ([ce170a5](https://github.com/FHIDev/dafn-dummy-repo/commit/ce170a51b71eb85fa04f773a83b63cf6032a7b54))
+
+
+### 🛠️ Bug Fixes
+
+* hei ([78097e9](https://github.com/FHIDev/dafn-dummy-repo/commit/78097e933efc2deff0f10e834793f45e2a0d4cb5))
+
 ## [0.2.0](https://github.com/FHIDev/dafn-dummy-repo/compare/v0.1.2...v0.2.0) (2024-11-04)
 
 
