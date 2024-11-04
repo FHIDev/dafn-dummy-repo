@@ -1,5 +1,8 @@
 import { defineConfig, loadEnv } from 'vite';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
+import generateFile from 'vite-plugin-generate-file';
+
+const OUTPUT_DIRECTORY = 'dist';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
@@ -12,6 +15,11 @@ export default defineConfig(({ mode }) => {
   switch (env.DEPLOY_TARGET) {
     case 'cdn':
       return {
+        plugins: [
+          generateFile({
+            output: './index.html',
+          }),
+        ],
         build: {
           lib: {
             entry: './src/library.ts',
@@ -19,7 +27,7 @@ export default defineConfig(({ mode }) => {
             fileName: 'fhi-designsystem',
           },
           sourcemap: true,
-          outDir: 'dist/cdn',
+          outDir: `${OUTPUT_DIRECTORY}/cdn`,
         },
       };
     case 'npm':
@@ -45,9 +53,9 @@ export default defineConfig(({ mode }) => {
               /*
                 If you create a new component you need to add a reference to it here, e.g:
                 "new-component": "./src/components/new-component/new-component.ts",
-                */
-              'fhi-button': './src/components/fhi-button',
+            */
               index: './src/library.ts',
+              'fhi-button': './src/components/fhi-button',
             },
           },
           sourcemap: true,
@@ -58,7 +66,7 @@ export default defineConfig(({ mode }) => {
               },
             },
           },
-          outDir: 'dist/npm',
+          outDir: `${OUTPUT_DIRECTORY}/npm`,
         },
       };
     default:
