@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.1](https://github.com/FHIDev/dafn-dummy-repo/compare/v0.1.0...v0.1.1) (2024-11-04)
+
+
+### 🛠️ Bug Fixes
+
+* repo url ([41f1795](https://github.com/FHIDev/dafn-dummy-repo/commit/41f1795c4cb31a711987fc71a3b40b7217db2683))
+* test action ([ff55763](https://github.com/FHIDev/dafn-dummy-repo/commit/ff5576307badea1d361a48569eadfff48524e1a2))
+
 ## 0.1.0 (2024-11-01)
 
 
