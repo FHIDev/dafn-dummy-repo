@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.1](https://github.com/FHIDev/dafn-dummy-repo/compare/v0.5.0...v0.5.1) (2024-11-13)
+
+
+### 📑 Documentation
+
+* Update README ([#9](https://github.com/FHIDev/dafn-dummy-repo/issues/9)) ([829acf5](https://github.com/FHIDev/dafn-dummy-repo/commit/829acf55e11a735c5e951aa3a15b545c264f889c))
+
 ## [0.5.0](https://github.com/FHIDev/dafn-dummy-repo/compare/v0.3.1...v0.5.0) (2024-11-13)
 
 
