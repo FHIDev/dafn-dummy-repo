@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.4.1](https://github.com/FHIDev/dafn-dummy-repo/compare/v0.4.0...v0.4.1) (2024-11-13)
+
+
+### 🛠️ Bug Fixes
+
+* remove stuff ([103a296](https://github.com/FHIDev/dafn-dummy-repo/commit/103a2962734a349885c0c81841a825dd0f89ed03))
+
+
+### 📑 Other
+
+* add more stuff ([f343852](https://github.com/FHIDev/dafn-dummy-repo/commit/f34385246abf26a81af2303461b630d9c230f017))
+* remove stuff BREAKING CHANGE ([7fd4c50](https://github.com/FHIDev/dafn-dummy-repo/commit/7fd4c50e853e7ae4a8985721285418d852434f10))
+
 ## [0.4.0](https://github.com/FHIDev/dafn-dummy-repo/compare/v0.3.1...v0.4.0) (2024-11-13)
 
 
