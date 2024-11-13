@@ -71,7 +71,7 @@ export class FhiButton extends LitElement {
     :host([variant='']),
     :host([variant='primary']) {
       button {
-        color: var(--component-color-primary-content);
+            color: var(--component-color-primary-content);
         background-color: var(--component-color-primary-background);
         border-color: var(--component-color-primary-border);
         &:hover {
