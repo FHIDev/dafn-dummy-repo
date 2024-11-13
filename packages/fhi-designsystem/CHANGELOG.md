@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.5.0](https://github.com/FHIDev/dafn-dummy-repo/compare/v0.3.1...v0.5.0) (2024-11-13)
+
+
+### 🚀 Features
+
+* add more stuff ([#5](https://github.com/FHIDev/dafn-dummy-repo/issues/5)) ([cae1bad](https://github.com/FHIDev/dafn-dummy-repo/commit/cae1bad90507bd69f53217687e8242d85fa0338d))
+
+
+### 🛠️ Bug Fixes
+
+* remove stuff ([#8](https://github.com/FHIDev/dafn-dummy-repo/issues/8)) ([87d6ebf](https://github.com/FHIDev/dafn-dummy-repo/commit/87d6ebf6e84e424bdcafb6c9475a14d431bac46f))
+
+
+### 📑 Other
+
+* bump version to 0.4.1 ([#6](https://github.com/FHIDev/dafn-dummy-repo/issues/6)) ([7879046](https://github.com/FHIDev/dafn-dummy-repo/commit/78790468b76e64b9800567b4377a58fafcac51aa))
+* lint error ([#7](https://github.com/FHIDev/dafn-dummy-repo/issues/7)) ([7e5fd40](https://github.com/FHIDev/dafn-dummy-repo/commit/7e5fd40dedbe9357900f6a7d8791bf2e4f215d1e))
+* test guard ([12f518f](https://github.com/FHIDev/dafn-dummy-repo/commit/12f518f12aac473ff496dc27a7bedad52a2dec8f))
+* test guard ([4ddf6e0](https://github.com/FHIDev/dafn-dummy-repo/commit/4ddf6e0d9c89c122d16369655c2be5a5cdec3c72))
+
 ## [0.3.1](https://github.com/FHIDev/dafn-dummy-repo/compare/v0.3.0...v0.3.1) (2024-11-07)
 
 ## [0.3.0](https://github.com/FHIDev/dafn-dummy-repo/compare/v0.2.0...v0.3.0) (2024-11-04)
