@@ -24,7 +24,7 @@ const meta: Meta = {
     </fhi-button>`,
   argTypes: {
     variant: {
-      options: ['primary', 'danger'],
+      options: ['primary', 'danger', 'alert'],
       control: { type: 'radio' },
     },
   },
