@@ -10,8 +10,7 @@ import { FhiButton, FhiButtonProps } from './fhi-button';
 FhiButton;
 
 const meta: Meta = {
-  title: 'Components/fhi-button',
-  tags: ['autodocs'],
+  title: 'Components/Button',
   parameters: {
     actions: {
       handles: ['click'],
@@ -19,29 +18,115 @@ const meta: Meta = {
   },
   decorators: [withActions],
   render: args =>
-    html`<fhi-button variant=${ifDefined(args.variant)}>
-      Fhi Button
+    html`<fhi-button
+      color=${ifDefined(args.color)}
+      variant=${ifDefined(args.variant)}
+      size=${ifDefined(args.size)}
+      ?disabled=${args.disabled}
+    >
+      Handling
     </fhi-button>`,
   argTypes: {
+    color: {
+      options: ['accent', 'neutral', 'danger'],
+      control: { type: 'select' },
+    },
     variant: {
-      options: ['primary', 'danger'],
-      control: { type: 'radio' },
+      options: ['strong', 'subtle', 'outlined', 'text'],
+      control: { type: 'select' },
+    },
+    size: {
+      options: ['large', 'medium', 'small'],
+      control: { type: 'select' },
     },
   },
 };
 
 type Story = StoryObj<FhiButtonProps>;
 
-export const Primary: Story = {
+export const Preview: Story = {
+  tags: ['!dev'],
   args: {
-    variant: 'primary',
+    color: 'accent',
+    variant: 'strong',
+    size: 'medium',
+    disabled: false,
+  } satisfies FhiButtonProps,
+};
+
+export const Accent: Story = {
+  args: {
+    color: 'accent',
+    variant: 'strong',
+    size: 'medium',
+    disabled: false,
+  } satisfies FhiButtonProps,
+};
+
+export const Neutral: Story = {
+  args: {
+    color: 'neutral',
+    variant: 'strong',
+    size: 'medium',
+    disabled: false,
   } satisfies FhiButtonProps,
 };
 
 export const Danger: Story = {
   args: {
-    variant: 'danger',
+    color: 'danger',
+    variant: 'strong',
+    size: 'medium',
+    disabled: false,
   } satisfies FhiButtonProps,
+};
+
+export const showColors: Story = {
+  tags: ['!dev'],
+  render: () => html`
+    <fhi-button color="accent" variant="strong" size="medium"
+      >Handling</fhi-button
+    >
+    <fhi-button color="neutral" variant="strong" size="medium"
+      >Handling</fhi-button
+    >
+    <fhi-button color="danger" variant="strong" size="medium"
+      >Handling</fhi-button
+    >
+  `,
+};
+
+export const showVariants: Story = {
+  tags: ['!dev'],
+  render: () => html`
+    <fhi-button color="neutral" variant="strong" size="medium"
+      >Handling</fhi-button
+    >
+    <fhi-button color="neutral" variant="subtle" size="medium"
+      >Handling</fhi-button
+    >
+    <fhi-button color="neutral" variant="outlined" size="medium"
+      >Handling</fhi-button
+    >
+    <fhi-button color="neutral" variant="text" size="medium"
+      >Handling</fhi-button
+    >
+  `,
+};
+
+export const showSizes: Story = {
+  tags: ['!dev'],
+  render: () => html`
+    <fhi-button color="neutral" variant="strong" size="large"
+      >Handling</fhi-button
+    >
+    <fhi-button color="neutral" variant="strong" size="medium"
+      >Handling</fhi-button
+    >
+    <fhi-button color="neutral" variant="strong" size="small"
+      >Handling</fhi-button
+    >
+  `,
 };
 
 export default meta;

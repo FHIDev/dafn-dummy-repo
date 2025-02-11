@@ -2,7 +2,7 @@
   "title": "FHI Designsystem",
   "author": "FHI Designsystem team",
   "name": "dafn-test2",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "The official design system for the Norwegian Institute of Public Health implemented as web components",
   "keywords": [
     "fhi",
@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/FHIDev/dafn-dummy-repo"
+    "url": "https://github.com/FHIDev/Fhi.Designsystem"
   },
   "license": "MIT",
   "browserslist": [
@@ -48,9 +48,7 @@
     "format": "pnpm format:eslint && pnpm format:prettier",
     "format:eslint": "eslint \"**/*.{js,ts}\" --fix",
     "format:prettier": "prettier \"**/*.js\" --write --ignore-path .gitignore",
-    "publish:npm": "pnpm build && cd dist/npm && npm publish",
-    "changelog": "release-it",
-    "changelog:ci": "release-it --ci"
+    "publish:npm": "pnpm build && cd dist/npm && npm publish"
   },
   "peerDependencies": {
     "lit": "^3.2.0"
@@ -60,8 +58,6 @@
     "@esm-bundle/chai": "4.3.4-fix.0",
     "@open-wc/testing": "4.0.0",
     "@playwright/test": "^1.47.0",
-    "@release-it/conventional-changelog": "^8.0.2",
-    "@storybook/addon-actions": "^8.3.6",
     "@storybook/addon-essentials": "^8.3.0",
     "@storybook/addon-links": "^8.3.0",
     "@storybook/blocks": "^8.3.0",
@@ -75,14 +71,14 @@
     "@web/test-runner": "0.18.3",
     "@web/test-runner-playwright": "^0.11.0",
     "cross-env": "^7.0.3",
-    "husky": "^9.1.6",
     "lit": "^3.2.0",
     "mocha": "^10.7.0",
-    "release-it": "^17.6.0",
     "storybook": "^8.3.0",
-    "typescript": "^5.5.0",
     "vite": "^5.4.0",
     "vite-plugin-generate-file": "^0.2.0",
-    "vite-plugin-static-copy": "^1.0.6"
+    "vite-plugin-static-copy": "^1.0.6",
+    "release-it": "^17.6.0",
+    "@release-it/conventional-changelog": "^8.0.2",
+    "@storybook/addon-actions": "^8.3.6"
   }
 }
