@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.6.2](https://github.com/FHIDev/Fhi.Designsystem/compare/v0.6.1...v0.6.2) (2025-02-12)
+
+
+### 🛠️ Bug Fixes
+
+* access control ([3933a3a](https://github.com/FHIDev/Fhi.Designsystem/commit/3933a3aff9de738e2bec31417a78febf1e9b816a))
+* add dist/cdn output ([cd9ad82](https://github.com/FHIDev/Fhi.Designsystem/commit/cd9ad825166285ddef11a86c2314dcc468069eba))
+* eslint ignore dist in pipeline ([78c168d](https://github.com/FHIDev/Fhi.Designsystem/commit/78c168dc18c3ed73a40a5d5129493534c6c6a8a4))
+* ignore ([f383c31](https://github.com/FHIDev/Fhi.Designsystem/commit/f383c31f21ea75c2032a911d621fc2397738c017))
+
 ## [0.6.1](https://github.com/FHIDev/Fhi.Designsystem/compare/v0.6.0...v0.6.1) (2025-02-12)
 
 

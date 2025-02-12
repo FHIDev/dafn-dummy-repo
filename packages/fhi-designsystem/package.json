@@ -2,7 +2,7 @@
   "title": "FHI Designsystem",
   "author": "FHI Designsystem team",
   "name": "dafn-test2",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "The official design system for the Norwegian Institute of Public Health implemented as web components",
   "keywords": [
     "fhi",
@@ -50,7 +50,7 @@
     "format:prettier": "prettier \"**/*.js\" --write --ignore-path .gitignore",
     "publish:npm": "pnpm build && cd dist/npm && npm publish",
     "changelog": "release-it",
-    "changelog:ci": "release-it --ci"
+    "changelog:ci": "release-it --ci --no-git.requireCleanWorkingDir"
   },
   "peerDependencies": {
     "lit": "^3.2.0"
