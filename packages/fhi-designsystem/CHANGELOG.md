@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.1](https://github.com/FHIDev/Fhi.Designsystem/compare/v0.6.0...v0.6.1) (2025-02-12)
+
+
+### 🛠️ Bug Fixes
+
+* add design tokens file to release ([f5261dd](https://github.com/FHIDev/Fhi.Designsystem/commit/f5261ddddd2fbcb20b70969e0893c6f84e68e488))
+* the merge is addedd ontop of comits ([361efe3](https://github.com/FHIDev/Fhi.Designsystem/commit/361efe34117e7f60be04f59aaae76e6fdb9ae4d0))
+
 ## [0.6.0](https://github.com/FHIDev/Fhi.Designsystem/compare/v0.5.1...v0.6.0) (2025-02-12)
 
 
