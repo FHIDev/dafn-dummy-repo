@@ -11,7 +11,7 @@
   "license": "ISC",
   "lint-staged": {
     "*.{js,ts}": [
-      "eslint --fix",
+      "eslint --fix --ignore-pattern **/dist",
       "prettier --write"
     ]
   },
