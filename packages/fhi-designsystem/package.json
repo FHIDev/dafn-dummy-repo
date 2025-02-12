@@ -43,7 +43,7 @@
     "storybook:build": "storybook build",
     "test": "wtr ./**/*.test.ts --node-resolve --playwright --browsers chromium firefox webkit",
     "lint": "pnpm lint:eslint && pnpm lint:prettier",
-    "lint:eslint": "eslint \"**/*.{js,ts}\"",
+    "lint:eslint": "eslint \"**/*.{js,ts}\" --ignore-pattern **/dist",
     "lint:prettier": "prettier \"**/*.js\" --check --ignore-path .gitignore",
     "format": "pnpm format:eslint && pnpm format:prettier",
     "format:eslint": "eslint \"**/*.{js,ts}\" --fix",
