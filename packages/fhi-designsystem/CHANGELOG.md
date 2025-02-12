@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.3](https://github.com/FHIDev/Fhi.Designsystem/compare/v0.6.2...v0.6.3) (2025-02-12)
+
+
+### 🛠️ Bug Fixes
+
+* fhjdks ([509140b](https://github.com/FHIDev/Fhi.Designsystem/commit/509140b2c2d810da7580786df3c0e9580095d78c))
+
 ## [0.6.2](https://github.com/FHIDev/Fhi.Designsystem/compare/v0.6.1...v0.6.2) (2025-02-12)
 
 
