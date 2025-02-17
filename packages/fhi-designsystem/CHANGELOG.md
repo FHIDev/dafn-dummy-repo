@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.1](https://github.com/FHIDev/dafn-dummy-repo/compare/v0.7.0...v0.7.1) (2025-02-17)
+
+
+### 🛠️ Bug Fixes
+
+* testing 2 ([281cc9b](https://github.com/FHIDev/dafn-dummy-repo/commit/281cc9be728deab4adbe8ec8564c5ad567715d33))
+
 ## [0.7.0](https://github.com/FHIDev/Fhi.Designsystem/compare/v0.6.3...v0.7.0) (2025-02-17)
 
 
