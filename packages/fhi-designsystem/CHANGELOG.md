@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://github.com/FHIDev/Fhi.Designsystem/compare/v0.6.3...v0.7.0) (2025-02-17)
+
+
+### 🚀 Features
+
+* testing 1 2 3 ([f01d1b3](https://github.com/FHIDev/Fhi.Designsystem/commit/f01d1b31c1da38a8bcc087497931f3d368486e37))
+
 ## [0.6.3](https://github.com/FHIDev/Fhi.Designsystem/compare/v0.6.2...v0.6.3) (2025-02-12)
 
 
