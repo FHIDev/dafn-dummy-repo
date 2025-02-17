@@ -10,7 +10,7 @@ import { FhiButton, FhiButtonProps } from './fhi-button';
 FhiButton;
 
 const meta: Meta = {
-  title: 'Components/Button',
+  title: 'Components/button-dafn-dummy-repo',
   parameters: {
     actions: {
       handles: ['click'],
