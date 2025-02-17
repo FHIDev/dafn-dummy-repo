@@ -10,7 +10,6 @@ export type FhiButtonProps = Pick<
 
 /**
  * Button component
- *
  * @tag fhi-button
  *
  * @slot contains the content of the button
