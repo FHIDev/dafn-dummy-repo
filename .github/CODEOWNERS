@@ -1,3 +1,5 @@
-@Designsystem-team-developers
+# Code owners for everything
+* @Designsystem-team-developers
 
+# Code owners for .md files
 *.md @Designsystem-team

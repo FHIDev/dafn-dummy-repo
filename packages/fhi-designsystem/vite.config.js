@@ -19,6 +19,18 @@ export default defineConfig(({ mode }) => {
           generateFile({
             output: './index.html',
           }),
+          viteStaticCopy({
+            targets: [
+              {
+                src: 'src/theme',
+                dest: './',
+              },
+              {
+                src: 'staticwebapp.config.json',
+                dest: './',
+              },
+            ],
+          }),
         ],
         build: {
           lib: {
@@ -43,6 +55,10 @@ export default defineConfig(({ mode }) => {
                 src: 'README.md',
                 dest: './',
               },
+              {
+                src: 'src/theme',
+                dest: './',
+              },
             ],
           }),
         ],
@@ -54,8 +70,8 @@ export default defineConfig(({ mode }) => {
                 If you create a new component you need to add a reference to it here, e.g:
                 "new-component": "./src/components/new-component/new-component.ts",
             */
+              'fhi-button': './src/components/fhi-button/fhi-button.ts',
               index: './src/library.ts',
-              'fhi-button': './src/components/fhi-button',
             },
           },
           sourcemap: true,

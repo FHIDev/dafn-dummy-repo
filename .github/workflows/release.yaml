@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - master
+      - button
 
 jobs:
   build:
@@ -32,17 +32,6 @@ jobs:
           echo "Commit message: \"$LAST_COMMIT_MESSAGE\""
           if [[ "$LAST_COMMIT_MESSAGE" != feat:\ * && "$LAST_COMMIT_MESSAGE" != fix:\ * && "$LAST_COMMIT_MESSAGE" != chore:\ * && "$LAST_COMMIT_MESSAGE" != docs:\ * ]]; then
             echo "ERROR: Prefix 'feat: ', 'fix: ', 'docs: ' or 'chore: ' is missing from the commit message."
-            exit 1
-          fi
-        shell: bash
-
-      - name: Guard - BREAKING CHANGE should not be in body
-        id: guard_breaking_change
-        run: |
-          LAST_COMMIT_MESSAGE="${{ github.event.head_commit.message }}"
-          echo "Commit message: \"$LAST_COMMIT_MESSAGE\""
-          if [[ "$LAST_COMMIT_MESSAGE" == *"BREAKING CHANGE"* ]]; then
-            echo "ERROR: Commit message should not include 'BREAKING CHANGE'."
             exit 1
           fi
         shell: bash
@@ -76,51 +65,13 @@ jobs:
       - name: Test
         run: cd packages/fhi-designsystem; pnpm test
 
-      - name: Guard - Check if a release should be made
-        id: guard_release
-        run: |
-          LAST_COMMIT_MESSAGE="${{ github.event.head_commit.message }}"
-          echo "Commit message: \"$LAST_COMMIT_MESSAGE\""
-          if [[ "$LAST_COMMIT_MESSAGE" == chore:\ * ]]; then
-            echo "Commit message includes 'chore: ', no release will be made."
-            echo "should_release=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "should_release=true" >> "$GITHUB_OUTPUT"
-          fi
-        shell: bash
-
-      - name: Ping NPM registry
-        if: steps.guard_release.outputs.should_release == 'true'
-        run: npm ping
-
-      - name: Update Changelog
-        if: steps.guard_release.outputs.should_release == 'true'
-        run: cd packages/fhi-designsystem; pnpm changelog:ci
-        env:
-          GITHUB_TOKEN: ${{secrets.REPO_GITHUB_TOKEN}}
-
-      - name: Publish package to NPM
-        if: steps.guard_release.outputs.should_release == 'true'
-        run: cd packages/fhi-designsystem; npm publish --provenance --access public
-
       - name: Build Storybook
-        if: steps.guard_release.outputs.should_release == 'true'
         run: cd packages/fhi-designsystem; pnpm storybook:build
 
       - name: Deploy Storybook
-        if: steps.guard_release.outputs.should_release == 'true'
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STORYBOOK_API_TOKEN }}
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STORYBOOK_TEST }}
           action: 'upload'
           app_location: 'packages/fhi-designsystem/storybook-static'
-          skip_app_build: true
-
-      - name: Publish package to CDN
-        if: steps.guard_release.outputs.should_release == 'true'
-        uses: Azure/static-web-apps-deploy@v1
-        with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_CDN_API_TOKEN }}
-          action: 'upload'
-          app_location: 'packages/fhi-designsystem/dist/cdn'
           skip_app_build: true

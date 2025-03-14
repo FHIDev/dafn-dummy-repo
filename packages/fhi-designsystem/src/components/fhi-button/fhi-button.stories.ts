@@ -3,45 +3,109 @@ import { withActions } from '@storybook/addon-actions/decorator';
 
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { FhiButton } from './fhi-button';
 
-import { FhiButton, FhiButtonProps } from './fhi-button';
-
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-FhiButton;
-
-const meta: Meta = {
-  title: 'Components/fhi-button',
-  tags: ['autodocs'],
+const meta: Meta<FhiButton> = {
+  title: 'Komponenter/Button',
+  component: 'fhi-button',
   parameters: {
     actions: {
       handles: ['click'],
     },
+    options: { selectedPanel: 'addon-controls' },
   },
   decorators: [withActions],
   render: args =>
-    html`<fhi-button variant=${ifDefined(args.variant)}>
-      Fhi Button
+    html`<fhi-button
+      color=${ifDefined(args.color)}
+      variant=${ifDefined(args.variant)}
+      size=${ifDefined(args.size)}
+      type=${ifDefined(args.type)}
+      ?disabled=${args.disabled}
+    >
+      Handling
     </fhi-button>`,
   argTypes: {
+    color: {
+      options: ['accent', 'neutral', 'danger'],
+      control: { type: 'select' },
+      description: 'Bestemmer farge.',
+      defaultValue: { summary: 'accent' },
+    },
     variant: {
-      options: ['primary', 'danger'],
-      control: { type: 'radio' },
+      options: ['strong', 'subtle', 'outlined', 'text'],
+      control: { type: 'select' },
+      description: 'Bestemmer variant.',
+      defaultValue: { summary: 'strong' },
+    },
+    size: {
+      options: ['large', 'medium', 'small'],
+      control: { type: 'select' },
+      description: 'Bestemmer størrelse.',
+      defaultValue: { summary: 'medium' },
+    },
+    type: {
+      options: ['submit', 'button', 'reset'],
+      control: { type: 'select' },
+      description: 'Bestemmer type.',
+      defaultValue: { summary: 'submit' },
+    },
+    disabled: {
+      control: { type: 'boolean' },
+      description: 'Bestemmer om knappen kan trykkes på.',
+      defaultValue: { summary: 'false' },
     },
   },
 };
 
-type Story = StoryObj<FhiButtonProps>;
+type Story = StoryObj<FhiButton>;
 
-export const Primary: Story = {
+export const Preview: Story = {
+  tags: ['!dev'],
+};
+
+export const Accent: Story = {
+  args: { color: 'accent' },
+};
+
+export const Neutral: Story = {
   args: {
-    variant: 'primary',
-  } satisfies FhiButtonProps,
+    color: 'neutral',
+  },
 };
 
 export const Danger: Story = {
   args: {
-    variant: 'danger',
-  } satisfies FhiButtonProps,
+    color: 'danger',
+  },
+};
+
+export const showColors: Story = {
+  tags: ['!dev'],
+  render: () => html`
+    <fhi-button color="accent">Handling</fhi-button>
+    <fhi-button color="neutral">Handling</fhi-button>
+    <fhi-button color="danger">Handling</fhi-button>
+  `,
+};
+
+export const showVariants: Story = {
+  tags: ['!dev'],
+  render: () => html`
+    <fhi-button color="neutral" variant="strong">Handling</fhi-button>
+    <fhi-button color="neutral" variant="subtle">Handling</fhi-button>
+    <fhi-button color="neutral" variant="outlined">Handling</fhi-button>
+    <fhi-button color="neutral" variant="text">Handling</fhi-button>
+  `,
+};
+
+export const showSizes: Story = {
+  tags: ['!dev'],
+  render: () => html`
+    <fhi-button color="neutral" size="large">Handling</fhi-button>
+    <fhi-button color="neutral" size="medium">Handling</fhi-button>
+    <fhi-button color="neutral" size="small">Handling</fhi-button>
+  `,
 };
 
 export default meta;
