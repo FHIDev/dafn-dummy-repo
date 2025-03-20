@@ -33,13 +33,13 @@ const meta: Meta<FhiTextInput> = {
     name: {
       control: 'text',
       description:
-        'Setter navn på inputfeltet. Fungerer likt som standard HTML name-attributten for inputfelt',
+        'Setter navn på inputfeltet. Dette brukes typisk av assosierte form-elementer for å identifisere feltet i FormData.',
       defaultValue: { summary: 'undefined' },
     },
     value: {
       control: 'text',
       description:
-        'Setter verdi på inputfeltet. Dette vil være synlig i feltet og automatisk bli med i FormData. Fungerer likt som standard HTML value-attributten for inputfelt',
+        'Setter verdi på inputfeltet. Dette vil være synlig i feltet og automatisk bli med i FormData.',
       defaultValue: { summary: 'undefined' },
     },
     label: {
@@ -57,19 +57,17 @@ const meta: Meta<FhiTextInput> = {
     placeholder: {
       control: 'text',
       description:
-        'Setter placeholder for inputfiltet. Denne vil ikke være synlig om feltet har verdi. Fungerer likt som standard HTML placeholder-attributten for inputfelt',
+        'Setter placeholder for inputfiltet. Denne vil ikke være synlig om feltet har verdi.',
       defaultValue: { summary: 'undefined' },
     },
     readonly: {
       control: 'boolean',
-      description:
-        'Bestemmer om feltet kan redigeres. Fungerer likt som standard HTML readonly-attributten for inputfelt',
+      description: 'Bestemmer om feltet kan redigeres.',
       defaultValue: { summary: false },
     },
     disabled: {
       control: 'boolean',
-      description:
-        'Bestemmer om bruker kan samhandle med feltet. Fungerer likt som standard HTML disabled-attributten for inputfelt',
+      description: 'Bestemmer om bruker kan samhandle med feltet.',
       defaultValue: { summary: false },
     },
     status: {
