@@ -5,8 +5,7 @@ import { html } from 'lit';
 import { FhiTextInput } from './fhi-text-input';
 import { ifDefined } from 'lit/directives/if-defined.js';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-FhiTextInput;
+new FhiTextInput();
 
 const meta: Meta<FhiTextInput> = {
   title: 'Komponenter/Text Input',
@@ -16,8 +15,16 @@ const meta: Meta<FhiTextInput> = {
       handles: ['change', 'input'],
     },
     options: { selectedPanel: 'addon-controls' },
+    docs: {
+      source: {
+        excludeDecorators: true,
+      },
+    },
   },
-  decorators: [withActions],
+  decorators: [
+    withActions,
+    story => html`<div style="max-width: 400px;">${story()}</div>`,
+  ],
   render: args =>
     html`<fhi-text-input
       label=${ifDefined(args.label)}
@@ -40,24 +47,24 @@ const meta: Meta<FhiTextInput> = {
       control: 'text',
       description:
         'Setter verdi på inputfeltet. Dette vil være synlig i feltet og automatisk bli med i FormData.',
-      defaultValue: { summary: 'undefined' },
+      defaultValue: { summary: '' },
     },
     label: {
       control: 'text',
       description:
-        'Setter label. Dette assosieres med inputfelted og vises over. Om dette er satt trenger du ikke å deklarere eget label-element',
+        'Setter label. Dette assosieres med inputfelted og vises over. Om dette er satt trenger du ikke å deklarere eget label-element.',
       defaultValue: { summary: 'undefined' },
     },
     message: {
       control: 'text',
       description:
-        'Setter melding som vises til brukeren. Dette vises under inputfeltet og er ment for å gi veiledning til brukeren',
+        'Setter melding som vises til brukeren. Dette vises under inputfeltet og er ment for å gi veiledning til brukeren.',
       defaultValue: { summary: 'undefined' },
     },
     placeholder: {
       control: 'text',
       description:
-        'Setter placeholder for inputfiltet. Denne vil ikke være synlig om feltet har verdi.',
+        'Setter placeholder for inputfeltet. Denne vil ikke være synlig om feltet har verdi.',
       defaultValue: { summary: 'undefined' },
     },
     readonly: {
@@ -73,7 +80,7 @@ const meta: Meta<FhiTextInput> = {
     status: {
       control: 'select',
       description:
-        'Bestemmer om feltet har en status. Dette vil endre utseende på feltet',
+        'Bestemmer om feltet har en status. Dette vil endre utseende på feltet.',
       defaultValue: { summary: 'undefined' },
       options: ['error'],
     },
@@ -94,6 +101,8 @@ export const Preview: Story = {
 export const Error: Story = {
   tags: ['!dev'],
   args: {
+    label: 'Label',
+    message: 'Informative error message',
     status: 'error',
     value: 'This field has an error',
   },
@@ -102,6 +111,7 @@ export const Error: Story = {
 export const Disabled: Story = {
   tags: ['!dev'],
   args: {
+    label: 'Label',
     value: 'This field is disabled',
     disabled: true,
   },
@@ -110,7 +120,8 @@ export const Disabled: Story = {
 export const Readonly: Story = {
   tags: ['!dev'],
   args: {
-    value: 'This field is readonly',
+    label: 'Navn',
+    value: 'Ola Nordmann',
     readonly: true,
   },
 };
@@ -124,7 +135,7 @@ export const WithLabelMessagePlaceholder: Story = {
   name: 'Label and message',
   args: {
     label: 'Adresse',
-    message: 'Venligst skriv inn bostedsadresse',
+    message: 'Vennligst skriv inn bostedsadresse',
   },
 };
 
@@ -134,7 +145,7 @@ export const WithLabelMessageValueError: Story = {
     label: 'E-postadresse',
     message:
       'Ufullstendig adresse, sjekk at alfakrøll (@) og domene er med og riktig skrevet (f.eks: designsystemet@fhi.no)',
-    value: 'daniel.fhi.no',
+    value: 'designsystemet.fhi.no',
     status: 'error',
   },
 };
@@ -143,8 +154,8 @@ export const WithReadonlyValueLabelMessage: Story = {
   name: 'Readonly',
   args: {
     label: 'Navn',
-    message: 'Navn må være minst 2 bokstaver og kan ikke inneholde spesialtegn',
-    value: 'Daniel',
+    message: 'Hentet fra folkeregisteret',
+    value: 'Ola Nordmann',
     readonly: true,
   },
 };

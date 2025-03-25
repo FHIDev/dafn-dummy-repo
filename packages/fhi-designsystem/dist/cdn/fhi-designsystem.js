@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 const R = globalThis,
-  V =
+  q =
     R.ShadowRoot &&
     (R.ShadyCSS === void 0 || R.ShadyCSS.nativeShadow) &&
     'adoptedStyleSheets' in Document.prototype &&
@@ -22,7 +22,7 @@ let nt = class {
   get styleSheet() {
     let t = this.o;
     const e = this.t;
-    if (V && t === void 0) {
+    if (q && t === void 0) {
       const r = e !== void 0 && e.length === 1;
       r && (t = J.get(e)),
         t === void 0 &&
@@ -58,7 +58,7 @@ const pt = s => new nt(typeof s == 'string' ? s : s + '', void 0, F),
     return new nt(e, s, F);
   },
   ut = (s, t) => {
-    if (V)
+    if (q)
       s.adoptedStyleSheets = t.map(e =>
         e instanceof CSSStyleSheet ? e : e.styleSheet,
       );
@@ -71,7 +71,7 @@ const pt = s => new nt(typeof s == 'string' ? s : s + '', void 0, F),
           s.appendChild(r);
       }
   },
-  Z = V
+  Z = q
     ? s => s
     : s =>
         s instanceof CSSStyleSheet
@@ -91,8 +91,8 @@ const {
     defineProperty: ft,
     getOwnPropertyDescriptor: yt,
     getOwnPropertyNames: $t,
-    getOwnPropertySymbols: vt,
-    getPrototypeOf: mt,
+    getOwnPropertySymbols: mt,
+    getPrototypeOf: vt,
   } = Object,
   m = globalThis,
   G = m.trustedTypes,
@@ -181,7 +181,7 @@ class S extends HTMLElement {
   }
   static _$Ei() {
     if (this.hasOwnProperty(C('elementProperties'))) return;
-    const t = mt(this);
+    const t = vt(this);
     t.finalize(),
       t.l !== void 0 && (this.l = [...t.l]),
       (this.elementProperties = new Map(t.elementProperties));
@@ -192,7 +192,7 @@ class S extends HTMLElement {
       ((this.finalized = !0), this._$Ei(), this.hasOwnProperty(C('properties')))
     ) {
       const e = this.properties,
-        r = [...$t(e), ...vt(e)];
+        r = [...$t(e), ...mt(e)];
       for (const i of r) this.createProperty(i, e[i]);
     }
     const t = this[Symbol.metadata];
@@ -431,8 +431,8 @@ const P = globalThis,
   z = P.trustedTypes,
   X = z ? z.createPolicy('lit-html', { createHTML: s => s }) : void 0,
   at = '$lit$',
-  v = `lit$${Math.random().toFixed(9).slice(2)}$`,
-  lt = '?' + v,
+  $ = `lit$${Math.random().toFixed(9).slice(2)}$`,
+  lt = '?' + $,
   bt = `<${lt}>`,
   A = document,
   O = () => A.createComment(''),
@@ -456,7 +456,7 @@ const P = globalThis,
   St =
     s =>
     (t, ...e) => ({ _$litType$: s, strings: t, values: e }),
-  B = St(1),
+  L = St(1),
   E = Symbol.for('lit-noChange'),
   c = Symbol.for('lit-nothing'),
   it = /* @__PURE__ */ new WeakMap(),
@@ -501,13 +501,13 @@ const Et = (s, t) => {
               : o === Y || o === tt
                 ? (o = x)
                 : ((o = _), (i = void 0));
-    const $ = o === _ && s[l + 1].startsWith('/>') ? ' ' : '';
+    const y = o === _ && s[l + 1].startsWith('/>') ? ' ' : '';
     n +=
       o === x
         ? a + bt
         : h >= 0
-          ? (r.push(p), a.slice(0, h) + at + a.slice(h) + v + $)
-          : a + v + (h === -2 ? l : $);
+          ? (r.push(p), a.slice(0, h) + at + a.slice(h) + $ + y)
+          : a + $ + (h === -2 ? l : y);
   }
   return [
     ct(
@@ -540,27 +540,27 @@ class T {
           for (const h of i.getAttributeNames())
             if (h.endsWith(at)) {
               const f = d[o++],
-                $ = i.getAttribute(h).split(v),
+                y = i.getAttribute(h).split($),
                 N = /([.?@])?(.*)/.exec(f);
               a.push({
                 type: 1,
                 index: n,
                 name: N[2],
-                strings: $,
+                strings: y,
                 ctor:
                   N[1] === '.' ? xt : N[1] === '?' ? Ct : N[1] === '@' ? Pt : I,
               }),
                 i.removeAttribute(h);
             } else
-              h.startsWith(v) &&
+              h.startsWith($) &&
                 (a.push({ type: 6, index: n }), i.removeAttribute(h));
         if (ht.test(i.tagName)) {
-          const h = i.textContent.split(v),
+          const h = i.textContent.split($),
             f = h.length - 1;
           if (f > 0) {
             i.textContent = z ? z.emptyScript : '';
-            for (let $ = 0; $ < f; $++)
-              i.append(h[$], O()),
+            for (let y = 0; y < f; y++)
+              i.append(h[y], O()),
                 b.nextNode(),
                 a.push({ type: 2, index: ++n });
             i.append(h[f], O());
@@ -570,8 +570,8 @@ class T {
         if (i.data === lt) a.push({ type: 2, index: n });
         else {
           let h = -1;
-          for (; (h = i.data.indexOf(v, h + 1)) !== -1; )
-            a.push({ type: 7, index: n }), (h += v.length - 1);
+          for (; (h = i.data.indexOf($, h + 1)) !== -1; )
+            a.push({ type: 7, index: n }), (h += $.length - 1);
         }
       n++;
     }
@@ -851,8 +851,8 @@ class Ut {
     w(this, t);
   }
 }
-const L = P.litHtmlPolyfillSupport;
-L == null || L(T, H),
+const B = P.litHtmlPolyfillSupport;
+B == null || B(T, H),
   (P.litHtmlVersions ?? (P.litHtmlVersions = [])).push('3.2.1');
 const Ot = (s, t, e) => {
   const r = (e == null ? void 0 : e.renderBefore) ?? t;
@@ -905,8 +905,8 @@ var ot;
   (U.finalized = !0),
   (ot = globalThis.litElementHydrateSupport) == null ||
     ot.call(globalThis, { LitElement: U });
-const q = globalThis.litElementPolyfillSupport;
-q == null || q({ LitElement: U });
+const V = globalThis.litElementPolyfillSupport;
+V == null || V({ LitElement: U });
 (globalThis.litElementVersions ?? (globalThis.litElementVersions = [])).push(
   '4.1.1',
 );
@@ -963,7 +963,7 @@ const Tt = {
     }
     throw Error('Unsupported decorator location: ' + r);
   };
-function y(s) {
+function v(s) {
   return (t, e) =>
     typeof e == 'object'
       ? Ht(s, t, e)
@@ -1029,7 +1029,6 @@ let u = class extends U {
       (this.message = void 0),
       (this.placeholder = null),
       (this.status = void 0),
-      (this.required = !1),
       (this.readonly = !1),
       (this.disabled = !1),
       (this._name = void 0),
@@ -1078,21 +1077,20 @@ let u = class extends U {
       this._internals.setFormValue(this.value);
   }
   render() {
-    return B`
-      ${this.label && B`<label for="input-element">${this.label}</label>`}
+    return L`
+      ${this.label && L`<label for="input-element">${this.label}</label>`}
       <input
         id="input-element"
         name=${st(this.name)}
         placeholder=${st(this.placeholder)}
         .value=${this.value}
-        ?required=${this.required}
         ?readonly=${this.readonly}
         ?disabled=${this.disabled}
         @change=${this.onChange}
         @input=${this.onInput}
         @keydown=${this.onKeyDown}
       />
-      ${this.message ? B`<p class="message">${this.message}</p>` : ''}
+      ${this.message ? L`<p class="message">${this.message}</p>` : ''}
     `;
   }
 };
@@ -1118,7 +1116,7 @@ u.styles = dt`
         --fhi-typography-label-small-letter-spacing
       );
 
-      --dimension-label-padding-bottom: var(--fhi-spacing-100);
+      --dimension-label-padding-bottom: var(--fhi-spacing-050);
 
       /* input */
       --color-input-placeholder: var(--fhi-color-neutral-base);
@@ -1152,6 +1150,9 @@ u.styles = dt`
       --dimension-input-padding-left: var(--fhi-spacing-150);
       --dimension-input-padding-right: var(--fhi-spacing-150);
 
+      --motion-input-transition: all var(--fhi-motion-ease-default)
+        var(--fhi-motion-duration-quick);
+
       /* message */
       --color-message-text: var(--fhi-color-neutral-text);
       --color-message-text-error: var(--fhi-color-danger-text-subtle);
@@ -1169,7 +1170,7 @@ u.styles = dt`
         --fhi-typography-body-small-letter-spacing
       );
 
-      --dimension-message-margin-top: var(--fhi-spacing-100);
+      --dimension-message-margin-top: var(--fhi-spacing-050);
     }
 
     :host {
@@ -1196,12 +1197,12 @@ u.styles = dt`
           var(--dimension-input-padding-left);
         color: var(--color-input-text);
         background-color: var(--color-input-background);
+        font-family: var(--typography-font-family);
         font-weight: var(--typography-input-font-weight);
         font-size: var(--typography-input-font-size);
         line-height: var(--typography-input-line-height);
         letter-spacing: var(--typography-input-letter-spacing);
-        transition: all var(--fhi-motion-ease-default)
-          var(--fhi-motion-duration-quick);
+        transition: var(--motion-input-transition);
         &:hover {
           border-color: var(--color-input-border-hover);
           background-color: var(--color-input-background-hover);
@@ -1226,7 +1227,7 @@ u.styles = dt`
     }
 
     :host([disabled]) {
-      opacity: var(--fhi-opacity-disabled);
+      opacity: var(--opacity-disabled);
       cursor: not-allowed;
       * {
         cursor: not-allowed;
@@ -1243,12 +1244,9 @@ u.styles = dt`
       input {
         border: unset;
         border-radius: unset;
-        background-color: transparent;
-        background-image: linear-gradient(
-          90deg,
-          var(--color-input-border) var(--dimension-input-border-width),
-          transparent 1px
-        );
+        background-color: unset;
+        border-left: var(--dimension-input-border-width) solid
+          var(--color-input-border);
       }
     }
 
@@ -1266,16 +1264,15 @@ u.styles = dt`
       }
     }
   `;
+g([v({ type: String })], u.prototype, 'label', 2);
+g([v({ type: String })], u.prototype, 'message', 2);
+g([v({ type: String })], u.prototype, 'placeholder', 2);
+g([v({ type: String, reflect: !0 })], u.prototype, 'status', 2);
+g([v({ type: Boolean, reflect: !0 })], u.prototype, 'readonly', 2);
+g([v({ type: Boolean, reflect: !0 })], u.prototype, 'disabled', 2);
 g([Rt('#input-element')], u.prototype, '_input', 2);
-g([y({ type: String })], u.prototype, 'label', 2);
-g([y({ type: String })], u.prototype, 'message', 2);
-g([y({ type: String })], u.prototype, 'placeholder', 2);
-g([y({ type: String, reflect: !0 })], u.prototype, 'status', 2);
-g([y({ type: Boolean })], u.prototype, 'required', 2);
-g([y({ type: Boolean })], u.prototype, 'readonly', 2);
-g([y({ type: Boolean })], u.prototype, 'disabled', 2);
-g([y({ type: String, reflect: !0 })], u.prototype, 'name', 1);
-g([y({ type: String })], u.prototype, 'value', 1);
+g([v({ type: String, reflect: !0 })], u.prototype, 'name', 1);
+g([v({ type: String })], u.prototype, 'value', 1);
 u = g([kt(It)], u);
 export { u as FhiTextInput, It as FhiTextInputSelector };
 //# sourceMappingURL=fhi-designsystem.js.map
