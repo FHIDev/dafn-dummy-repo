@@ -45,7 +45,7 @@ importers:
         specifier: ~4.0.0
         version: 4.0.0
       '@playwright/test':
-        specifier: ~1.51.1
+        specifier: ^1.51.1
         version: 1.51.1
       '@release-it/conventional-changelog':
         specifier: ~8.0.2
