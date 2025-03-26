@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.2](https://github.com/FHIDev/dafn-dummy-repo/compare/v0.8.1...v0.8.2) (2025-03-26)
+
+
+### 🛠️ Bug Fixes
+
+* checkout with deploy key ([#13](https://github.com/FHIDev/dafn-dummy-repo/issues/13)) ([cf75b6e](https://github.com/FHIDev/dafn-dummy-repo/commit/cf75b6e1b900bef0711a87cc63747250ade59596))
+* hello ([#14](https://github.com/FHIDev/dafn-dummy-repo/issues/14)) ([80ff8dc](https://github.com/FHIDev/dafn-dummy-repo/commit/80ff8dcfbcb0d8a7a7c132269f1ec1d548ca39ec))
+
 ## [0.8.1](https://github.com/FHIDev/dafn-dummy-repo/compare/v0.8.0...v0.8.1) (2025-03-26)
 
 
