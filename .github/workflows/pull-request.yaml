@@ -11,11 +11,8 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-4xlarge
     environment: development
-    strategy:
-      matrix:
-        browser: [chromium, firefox, webkit]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -49,7 +46,7 @@ jobs:
         run: cd packages/fhi-designsystem; pnpm build
 
       - name: Prepare Testing Environment
-        run: cd packages/fhi-designsystem; pnpm exec playwright install --with-deps ${{ matrix.browser }}
+        run: cd packages/fhi-designsystem; pnpm exec playwright install --with-deps
 
       - name: Test
-        run: cd packages/fhi-designsystem; pnpm test --browsers ${{ matrix.browser }}
+        run: cd packages/fhi-designsystem; pnpm test
