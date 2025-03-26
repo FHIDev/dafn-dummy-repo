@@ -11,12 +11,13 @@ export default {
     playwrightLauncher({
       product: 'firefox',
       launchOptions: {
-        headless: false,
-      },
+        args: ['--no-sandbox', '--headless=false'],
+        headless: true
+      }
     }),
     playwrightLauncher({
       product: 'webkit',
     }),
   ],
-  browserStartTimeout: 60000,
+  browserStartTimeout: 10000,
 };
