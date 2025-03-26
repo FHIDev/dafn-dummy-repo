@@ -6,16 +6,17 @@ export default {
   plugins: [esbuildPlugin({ ts: true, tsconfig: 'tsconfig.json' })],
   browsers: [
     playwrightLauncher({
-      launchOptions: { args: ['--no-sandbox'] },
       product: 'chromium',
     }),
     playwrightLauncher({
-      launchOptions: { args: ['--no-sandbox'] },
       product: 'firefox',
+      launchOptions: {
+        headless: false,
+      },
     }),
     playwrightLauncher({
-      launchOptions: { args: ['--no-sandbox'] },
       product: 'webkit',
     }),
   ],
+  browserStartTimeout: 60000,
 };
