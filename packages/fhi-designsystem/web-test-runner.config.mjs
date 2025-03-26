@@ -5,7 +5,7 @@ export default {
   files: ['**/*.test.ts'],
   plugins: [esbuildPlugin({ ts: true, tsconfig: 'tsconfig.json' })],
   nodeResolve: true,
-  concurrentBrowsers: 3,
+  concurrentBrowsers: 1,
   browsers: [
     playwrightLauncher({
       product: 'chromium',
