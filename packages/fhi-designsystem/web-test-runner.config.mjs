@@ -4,20 +4,17 @@ import { playwrightLauncher } from '@web/test-runner-playwright';
 export default {
   files: ['**/*.test.ts'],
   plugins: [esbuildPlugin({ ts: true, tsconfig: 'tsconfig.json' })],
+  nodeResolve: true,
+  concurrentBrowsers: 3,
   browsers: [
     playwrightLauncher({
       product: 'chromium',
-    }),
-    playwrightLauncher({
-      product: 'firefox',
       launchOptions: {
-        args: ['--no-sandbox', '--headless=false'],
-        headless: true
-      }
+        args: ['--no-sandbox'],
+      },
     }),
-    playwrightLauncher({
-      product: 'webkit',
-    }),
+    playwrightLauncher({ product: 'firefox' }),
+    playwrightLauncher({ product: 'webkit' }),
   ],
   browserStartTimeout: 10000,
 };
