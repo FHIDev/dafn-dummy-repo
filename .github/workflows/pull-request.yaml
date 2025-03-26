@@ -13,6 +13,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment: development
+    strategy:
+      matrix:
+        browser: [chromium, firefox, webkit]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -49,4 +52,4 @@ jobs:
         run: cd packages/fhi-designsystem; pnpm exec playwright install --with-deps
 
       - name: Test
-        run: cd packages/fhi-designsystem; pnpm test
+        run: cd packages/fhi-designsystem; pnpm test --project=${{ matrix.browser }}
