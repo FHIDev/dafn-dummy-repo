@@ -5,7 +5,7 @@ export default {
   files: ['**/*.test.ts'],
   plugins: [esbuildPlugin({ ts: true, tsconfig: 'tsconfig.json' })],
   nodeResolve: true,
-  concurrentBrowsers: 1,
+  concurrentBrowsers: 3,
   browsers: [
     playwrightLauncher({
       product: 'chromium',
@@ -13,7 +13,7 @@ export default {
         args: ['--no-sandbox'],
       },
     }),
-    playwrightLauncher({ product: 'firefox' }),
+    playwrightLauncher({ product: 'firefox', launchOptions: { args: ['--headless=false'] } }),
     playwrightLauncher({ product: 'webkit' }),
   ],
   browserStartTimeout: 10000,
