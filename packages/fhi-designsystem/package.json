@@ -16,13 +16,13 @@
     "web component",
     "ui"
   ],
-  "homepage": "https://github.com/FHIDev/Fhi.Designsystem",
+  "homepage": "https://github.com/FHIDev/dafn-dummy-repo",
   "bugs": {
-    "url": "https://github.com/FHIDev/Fhi.Designsystem/issues"
+    "url": "https://github.com/FHIDev/dafn-dummy-repo/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/FHIDev/Fhi.Designsystem.git"
+    "url": "git+https://github.com/FHIDev/dafn-dummy-repo.git"
   },
   "license": "MIT",
   "browserslist": [
