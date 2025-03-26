@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.1](https://github.com/FHIDev/dafn-dummy-repo/compare/v0.8.0...v0.8.1) (2025-03-26)
+
+
+### 🛠️ Bug Fixes
+
+* update package.json ([70c2d5e](https://github.com/FHIDev/dafn-dummy-repo/commit/70c2d5efbe5af481f923abe0560903909352d0e9))
+
 ## [0.8.0](https://github.com/FHIDev/Fhi.Designsystem/compare/v0.7.1...v0.8.0) (2025-03-26)
 
 
