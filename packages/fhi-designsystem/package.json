@@ -41,7 +41,7 @@
     "build:npm": "tsc && cross-env DEPLOY_TARGET=npm vite build",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
-    "test": "sudo DEBUG=pw:browser web-test-runner",
+    "test": "DEBUG=pw:browser web-test-runner",
     "test:watch": "web-test-runner --watch",
     "lint": "pnpm lint:eslint && pnpm lint:prettier",
     "lint:eslint": "eslint \"**/*.{js,ts}\"",
