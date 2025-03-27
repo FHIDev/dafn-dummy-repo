@@ -13,13 +13,7 @@ export default {
         args: ['--no-sandbox'],
       },
     }),
-    playwrightLauncher({
-      product: 'firefox',
-      launchOptions: {
-        headless: true, // Ensure headless mode
-        args: ['-private'],
-      },
-    }),
+    playwrightLauncher({ product: 'firefox' }),
     playwrightLauncher({ product: 'webkit' }),
   ],
   browserStartTimeout: 20000,
