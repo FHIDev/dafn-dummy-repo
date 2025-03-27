@@ -13,7 +13,6 @@ export default {
         args: ['--no-sandbox'],
       },
     }),
-    playwrightLauncher({ product: 'firefox' }),
     playwrightLauncher({ product: 'webkit' }),
   ],
   browserStartTimeout: 10000,
