@@ -21,6 +21,7 @@ export default {
           '--no-sandbox',
           '--disable-gpu', // Disable GPU acceleration
           '--disable-dev-shm-usage', // Use /tmp for shared memory
+          '-P "runner"'
         ],
       },
     }),
