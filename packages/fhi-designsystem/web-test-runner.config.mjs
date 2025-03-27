@@ -5,7 +5,7 @@ export default {
   files: ['**/*.test.ts'],
   plugins: [esbuildPlugin({ ts: true, tsconfig: 'tsconfig.json' })],
   nodeResolve: true,
-  concurrentBrowsers: 3,
+  concurrentBrowsers: 1,
   browsers: [
     playwrightLauncher({
       product: 'chromium',
@@ -18,14 +18,13 @@ export default {
       launchOptions: {
         headless: true, // Ensure headless mode
         args: [
-          '--no-sandbox',
-          '--disable-gpu', // Disable GPU acceleration
-          '--disable-dev-shm-usage', // Use /tmp for shared memory
-          '-P "runner"'
+          '-no-sandbox',
+          '-disable-gpu', // Disable GPU acceleration
+          '-disable-dev-shm-usage', // Use /tmp for shared memory
         ],
       },
     }),
     playwrightLauncher({ product: 'webkit' }),
   ],
-  browserStartTimeout: 20000,
+  browserStartTimeout: 60000,
 };
