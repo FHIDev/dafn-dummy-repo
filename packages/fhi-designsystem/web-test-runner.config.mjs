@@ -16,7 +16,12 @@ export default {
     playwrightLauncher({
       product: 'firefox',
       launchOptions: {
-        headless: false,
+        headless: true, // Ensure headless mode
+        args: [
+          '--no-sandbox',
+          '--disable-gpu', // Disable GPU acceleration
+          '--disable-dev-shm-usage', // Use /tmp for shared memory
+        ],
       },
     }),
     playwrightLauncher({ product: 'webkit' }),
