@@ -13,13 +13,8 @@ export default {
         args: ['--no-sandbox'],
       },
     }),
-    playwrightLauncher({
-      product: 'firefox',
-      launchOptions: {
-        headless: false,
-      },
-    }),
+    playwrightLauncher({ product: 'firefox' }),
     playwrightLauncher({ product: 'webkit' }),
   ],
-  browserStartTimeout: 20000,
+  browserStartTimeout: 10000,
 };
