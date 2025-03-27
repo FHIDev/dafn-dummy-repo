@@ -21,5 +21,5 @@ export default {
     }),
     playwrightLauncher({ product: 'webkit' }),
   ],
-  browserStartTimeout: 10000,
+  browserStartTimeout: 20000,
 };
