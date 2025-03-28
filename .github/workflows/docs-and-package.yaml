@@ -74,8 +74,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{secrets.REPO_GITHUB_TOKEN}}
 
-      - name: Include Updated Changelog In Build
-        run: cd packages/fhi-designsystem; pnpm build
-
       - name: Publish package to NPM
         run: cd packages/fhi-designsystem/dist/npm; npm publish --provenance --access public
