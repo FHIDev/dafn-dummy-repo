@@ -5,14 +5,14 @@ permissions:
   id-token: write
 
 on:
-  push:
+  pull_request:
     branches:
       - master
 
 jobs:
   run:
     runs-on: ubuntu-latest
-    environment: production
+    environment: development
     steps:
       - name: Checkout
         uses: actions/checkout@v4
