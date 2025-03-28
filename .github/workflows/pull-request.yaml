@@ -25,6 +25,17 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+      - name: Guard - prefix
+        id: prefix
+        run: |
+          LAST_COMMIT_MESSAGE="${{ github.event.head_commit.message }}"
+          echo "Commit message: \"$LAST_COMMIT_MESSAGE\""
+          if [[ "$LAST_COMMIT_MESSAGE" != feat:\ * && "$LAST_COMMIT_MESSAGE" != fix:\ * ]]; then
+              echo "Commit message does not include 'feat: ' nor 'fix: '. Package & Docs pipeline will not run."
+              exit 1
+          fi
+        shell: bash
+
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
