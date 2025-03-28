@@ -1,4 +1,4 @@
-name: Pull Request Guard
+name: Package & Docs
 
 permissions:
   contents: write
@@ -7,16 +7,17 @@ permissions:
 on:
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
-  build:
+  run:
     runs-on: ubuntu-latest
-    environment: development
+    environment: production
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
+          ssh-key: ${{ secrets.DEPLOY_KEY }}
           fetch-depth: 0
 
       - name: Configure Git
@@ -35,6 +36,8 @@ jobs:
         with:
           node-version: lts/*
           registry-url: 'https://registry.npmjs.org/'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
       - name: Install dependencies
         run: pnpm i
@@ -46,13 +49,21 @@ jobs:
         run: cd packages/fhi-designsystem; pnpm build
 
       - name: Prepare Testing Environment
-        run: cd packages/fhi-designsystem; pnpm exec playwright install --with-deps chromium webkit
+        run: cd packages/fhi-designsystem; pnpm exec playwright install --with-deps
 
       - name: Test
         run: cd packages/fhi-designsystem; pnpm test
 
       - name: Ping NPM registry
         run: npm ping
+
+      - name: Update Changelog
+        run: cd packages/fhi-designsystem; pnpm changelog:ci
+        env:
+          GITHUB_TOKEN: ${{secrets.REPO_GITHUB_TOKEN}}
+
+      - name: Include Updated Changelog In Build
+        run: cd packages/fhi-designsystem; pnpm build
 
       - name: Publish package to NPM
         run: cd packages/fhi-designsystem/dist/npm; npm publish --provenance --access public
