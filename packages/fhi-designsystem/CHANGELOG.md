@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.0](https://github.com/FHIDev/dafn-dummy-repo/compare/v0.8.9...v0.9.0) (2025-03-28)
+
+
+### 🚀 Features
+
+* without ([#18](https://github.com/FHIDev/dafn-dummy-repo/issues/18)) ([809d5a1](https://github.com/FHIDev/dafn-dummy-repo/commit/809d5a1f5cc9d7cbd328e6f12af6bca8f8607146))
+
 ## [0.8.9](https://github.com/FHIDev/dafn-dummy-repo/compare/v0.8.8...v0.8.9) (2025-03-28)
 
 
