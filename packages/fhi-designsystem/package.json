@@ -1,7 +1,7 @@
 {
   "title": "FHI Designsystem",
   "author": "FHI Designsystem team",
-  "name": "@folkehelseinstituttet/designsystem",
+  "name": "dafn-test-4",
   "version": "0.0.0",
   "description": "The official design system for the Norwegian Institute of Public Health implemented as web components",
   "keywords": [
@@ -16,13 +16,13 @@
     "web component",
     "ui"
   ],
-  "homepage": "https://github.com/FHIDev/Fhi.Designsystem",
+  "homepage": "https://github.com/FHIDev/dafn-dummy-repo",
   "bugs": {
-    "url": "https://github.com/FHIDev/Fhi.Designsystem/issues"
+    "url": "https://github.com/FHIDev/dafn-dummy-repo/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/FHIDev/Fhi.Designsystem.git"
+    "url": "git+https://github.com/FHIDev/dafn-dummy-repo.git"
   },
   "license": "MIT",
   "browserslist": [
