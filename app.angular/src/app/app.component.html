@@ -178,6 +178,7 @@
 </style>
 
 <main class="main">
+  <!-- https://angular.dev/api/forms/DefaultValueAccessor -->
   <form [formGroup]="profileForm" (ngSubmit)="handleSubmit()">
     <fhi-text-input
       label="Label"
@@ -185,12 +186,14 @@
       formControlName="firstName"
       ngDefaultControl
     ></fhi-text-input>
+
     <fhi-text-input
       label="Label"
       message="Message"
       formControlName="lastName"
       ngDefaultControl
     ></fhi-text-input>
+
     <fhi-button color="accent" variant="strong" size="medium">
       Submit
     </fhi-button>

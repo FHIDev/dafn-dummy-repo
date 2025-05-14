@@ -3,6 +3,9 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 
+import "@folkehelseinstituttet/designsystem/theme/default.css";
+import "@folkehelseinstituttet/designsystem/fhi-button";
+
 function App() {
   const [count, setCount] = useState(0);
 
@@ -28,24 +31,25 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <fhi-button
+        size="large"
+        onClick={(event: string) => console.log("hello world", event)}
+      >
+        Click me!
+      </fhi-button>
     </>
   );
 }
 
 export default App;
 
-/*
-
 declare module "react" {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace JSX {
     interface IntrinsicElements {
-      "fhi-button": React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLElement>,
-        HTMLElement
-      >;
+      [key: `fhi-${string}`]: {
+        [attribute: string]: unknown;
+      };
     }
   }
 }
-
-*/
