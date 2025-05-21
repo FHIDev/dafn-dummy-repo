@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import { withActions } from '@storybook/addon-actions/decorator';
 
 import { html } from 'lit';
-import { FhiTextInput } from './fhi-text-input';
+import { FhiTextInput } from './fhi-text-input.component';
 import { ifDefined } from 'lit/directives/if-defined.js';
 
 new FhiTextInput();
@@ -82,7 +82,7 @@ const meta: Meta<FhiTextInput> = {
       description:
         'Bestemmer om feltet har en status. Dette vil endre utseende på feltet.',
       defaultValue: { summary: 'undefined' },
-      options: ['error'],
+      options: [undefined, 'error'],
     },
   },
 };
@@ -143,7 +143,7 @@ export const WithLabelMessageValueError: Story = {
   args: {
     label: 'E-postadresse',
     message:
-      'Ufullstendig adresse, sjekk at alfakrøll (@) og domene er med og riktig skrevet (f.eks: designsystemet@fhi.no)',
+      'Ufullstendig adresse, sjekk at krøllalfa (@) og domene er med og riktig skrevet (f.eks: designsystemet@fhi.no)',
     value: 'designsystemet.fhi.no',
     status: 'error',
   },
