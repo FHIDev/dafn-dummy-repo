@@ -1,13 +1,10 @@
 import { html, css, LitElement } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import {
-  computePosition,
-  autoUpdate,
-  shift,
-  flip,
-  offset,
-} from '@floating-ui/dom';
-import { calculateTooltipPosition } from './utils';
+  calculateTooltipPosition,
+  getOverflowAncestors,
+  restingPosition,
+} from './utils/positioning';
 
 export const FhiTooltipSelector = 'fhi-tooltip';
 
@@ -27,7 +24,7 @@ export type TooltipPlacement =
 
 @customElement(FhiTooltipSelector)
 export class FhiTooltip extends LitElement {
-  @property({ type: String }) message?: string = undefined;
+  @property({ type: String }) message: string = '';
 
   @property({ type: String }) placement: TooltipPlacement = 'top';
 
@@ -51,26 +48,24 @@ export class FhiTooltip extends LitElement {
   protected _isFadingOut = false;
 
   @state()
-  protected _position = {
-    top: 0,
-    left: 0,
-  };
-  constructor() {
-    super();
-  }
+  protected _position = restingPosition;
 
   private _showTooltip() {
     if (this._isVisible) {
       return;
     }
 
+    if (!this.message) {
+      return;
+    }
+
     this._tooltip.showPopover();
 
-    this._positionTooltip({
-      placement: this.placement,
-    });
+    this._positionTooltip(this.placement);
 
     this._isVisible = true;
+
+    window.addEventListener('click', this._handlePotentialClickOutside);
   }
 
   private _hideTooltip() {
@@ -86,39 +81,45 @@ export class FhiTooltip extends LitElement {
 
       this._tooltip.hidePopover();
 
-      this.resetTooltipPosition();
-
       this._autoPositioningCleanup();
+      window.removeEventListener('click', this._handlePotentialClickOutside);
     }, 150);
   }
 
-  private _positionTooltip({
-    placement,
-  }: {
-    placement: TooltipPlacement;
-    iteration?: number;
-    currentPosition?: { top: number; left: number };
-    skipOutOfBoundsCheck?: boolean;
-  }) {
-    this._autoPositioningCleanup = autoUpdate(
-      this._anchor,
-      this._tooltip,
-      () => {
-        const position = calculateTooltipPosition({
-          tooltipRect: this._tooltip.getBoundingClientRect(),
-          anchorRect: this._anchor.getBoundingClientRect(),
-          placement,
-        });
+  private _autoUpdate = (positioningFunction: () => void) => {
+    const overflowAncestors = getOverflowAncestors(this._anchor);
 
-        if (position) {
-          this._position = position;
-          return;
-        }
+    positioningFunction();
 
-        this._hideTooltip();
-      },
-    );
-  }
+    overflowAncestors.forEach(ancestor => {
+      ancestor.addEventListener('scroll', positioningFunction);
+      ancestor.addEventListener('resize', positioningFunction);
+    });
+
+    return () => {
+      overflowAncestors.forEach(ancestor => {
+        ancestor.removeEventListener('scroll', positioningFunction);
+        ancestor.removeEventListener('resize', positioningFunction);
+      });
+    };
+  };
+
+  private _positionTooltip = (placement: TooltipPlacement) => {
+    this._autoPositioningCleanup = this._autoUpdate(() => {
+      const position = calculateTooltipPosition({
+        tooltipRect: this._tooltip.getBoundingClientRect(),
+        anchorRect: this._anchor.getBoundingClientRect(),
+        placement,
+      });
+
+      if (position) {
+        this._position = position;
+        return;
+      }
+
+      this._hideTooltip();
+    });
+  };
 
   private _handleMouseEnter() {
     if (this.trigger !== 'hover') {
@@ -139,6 +140,14 @@ export class FhiTooltip extends LitElement {
     this._hideTooltip();
   }
 
+  private _handlePotentialClickOutside = (event: MouseEvent) => {
+    const target = event.target as HTMLElement;
+
+    if (this._isVisible && !this.contains(target)) {
+      this._hideTooltip();
+    }
+  };
+
   private _handleClick() {
     if (this.trigger === 'click') {
       if (this._isVisible) {
@@ -155,14 +164,20 @@ export class FhiTooltip extends LitElement {
         id="tooltip-anchor"
         @mouseenter=${this._handleMouseEnter}
         @mouseleave=${this._handleMouseLeave}
+        @focusin=${this._handleMouseEnter}
+        @focusout=${this._handleMouseLeave}
+        @touchstart=${this._handleMouseEnter}
+        @touchend=${this._handleMouseLeave}
+        @touchcancel=${this._handleMouseLeave}
         @click=${this._handleClick}
       >
-        <slot></slot>
+        <slot aria-labelledby="tooltip"></slot>
       </div>
       <section
         id="tooltip"
         popover="manual"
-        ?visible=${this._isVisible}
+        role="tooltip"
+        aria-hidden=${!this._isVisible}
         ?fading-out=${this._isFadingOut}
         style="
           transform: translate3d(${this._position.left}px, ${this._position
@@ -181,7 +196,7 @@ export class FhiTooltip extends LitElement {
       --color-text: var(--fhi-color-neutral-text-inverted);
       --color-border: none;
 
-      --typography-font-family: var(--fhi-font-family-roboto-flex);
+      --typography-font-family: var(--fhi-font-family-default);
       --typography-font-size: var(--fhi-typography-body-small-font-size);
       --typography-font-style: normal;
       --typography-font-weight: var(--fhi-typography-body-small-font-weight);
@@ -192,7 +207,6 @@ export class FhiTooltip extends LitElement {
 
       --dimension-border-radius: var(--fhi-border-radius-050);
       --dimension-border-width: none;
-
       --dimension-padding: var(--fhi-spacing-050) var(--fhi-spacing-100);
     }
 
@@ -203,10 +217,10 @@ export class FhiTooltip extends LitElement {
       }
 
       #tooltip {
-        margin: 0 0 4px 0;
         border: var(--dimension-border-width) solid var(--color-border);
         visibility: hidden;
         opacity: 0;
+        margin: 0;
         transition: opacity 0.15s ease-in-out;
         width: max-content;
         padding: var(--dimension-padding);
@@ -221,12 +235,11 @@ export class FhiTooltip extends LitElement {
         font-variant-numeric: lining-nums proportional-nums;
         font-style: normal;
         cursor: default;
-        &[visible] {
+        &[aria-hidden='false'] {
           visibility: visible;
           opacity: 1;
         }
         &[fading-out] {
-          visibility: visible;
           opacity: 0;
         }
       }

@@ -12,7 +12,6 @@ const meta: Meta<FhiTooltip> = {
   component: 'fhi-tooltip',
   parameters: {},
   decorators: [],
-
   render: args => html`
     <fhi-tooltip
       message=${ifDefined(args.message)}
@@ -20,35 +19,34 @@ const meta: Meta<FhiTooltip> = {
       trigger=${ifDefined(args.trigger)}
       max-width=${ifDefined(args.maxWidth)}
     >
-      <fhi-button size="small" variant="outlined"
-        >Hover for å åpne tooltip</fhi-button
-      >
+      <fhi-button size="small" variant="outlined">åpne tooltip</fhi-button>
     </fhi-tooltip>
   `,
   argTypes: {
     message: {
       control: 'text',
-      description: 'Tekst som vises i tooltip-en',
+      description:
+        'Tekst som vises i tooltip-en. Uten message vil tooltip-en ikke vises.',
       table: {
         type: { summary: 'string' },
-        defaultValue: { summary: 'undefined' },
+        defaultValue: { summary: '' },
       },
     },
     placement: {
       control: 'select',
       options: [
         'top',
-        'topStart',
-        'topEnd',
+        'top-start',
+        'top-end',
         'bottom',
-        'bottomStart',
-        'bottomEnd',
+        'bottom-start',
+        'bottom-end',
         'left',
-        'leftStart',
-        'leftEnd',
+        'left-start',
+        'left-end',
         'right',
-        'rightStart',
-        'rightEnd',
+        'right-start',
+        'right-end',
       ],
       description: 'Plassering av tooltip-en i forhold til slot elementet.',
       table: {
@@ -74,6 +72,15 @@ const meta: Meta<FhiTooltip> = {
         defaultValue: { summary: '18.75rem' },
       },
     },
+    delay: {
+      control: 'number',
+      description:
+        'Hvor lenge, i millisekunder, tooltip-en venter før den vises.',
+      table: {
+        type: { summary: 'number' },
+        defaultValue: { summary: '500' },
+      },
+    },
   },
 };
 
@@ -88,13 +95,15 @@ export const Preview: Story = {
 
 export const Placement: Story = {
   tags: ['!dev'],
+  parameters: {
+    layout: 'centered',
+  },
   render: args => html`
     <section
       style="
           display: grid;
           grid-template-columns: repeat(3, 1fr);
           grid-template-rows: repeat(3, 1fr);
-          gap: 1rem;
         "
     >
       <section
@@ -110,10 +119,10 @@ export const Placement: Story = {
         <fhi-tooltip
           message=${args.message}
           delay="150"
-          placement="topStart"
+          placement="top-start"
           max-width="9rem"
         >
-          <fhi-button size="small" variant="outlined">topStart</fhi-button>
+          <fhi-button size="small" variant="outlined">top-start</fhi-button>
         </fhi-tooltip>
 
         <fhi-tooltip
@@ -127,10 +136,10 @@ export const Placement: Story = {
         <fhi-tooltip
           message=${args.message}
           delay="150"
-          placement="topEnd"
+          placement="top-end"
           max-width="9rem"
         >
-          <fhi-button size="small" variant="outlined">topEnd</fhi-button>
+          <fhi-button size="small" variant="outlined">top-end</fhi-button>
         </fhi-tooltip>
       </section>
       <section
@@ -145,10 +154,10 @@ export const Placement: Story = {
         <fhi-tooltip
           message=${args.message}
           delay="150"
-          placement="leftStart"
+          placement="left-start"
           max-width="9rem"
         >
-          <fhi-button size="small" variant="outlined">leftStart</fhi-button>
+          <fhi-button size="small" variant="outlined">left-start</fhi-button>
         </fhi-tooltip>
         <fhi-tooltip
           message=${args.message}
@@ -161,10 +170,10 @@ export const Placement: Story = {
         <fhi-tooltip
           message=${args.message}
           delay="150"
-          placement="leftEnd"
+          placement="left-end"
           max-width="9rem"
         >
-          <fhi-button size="small" variant="outlined">leftEnd</fhi-button>
+          <fhi-button size="small" variant="outlined">left-end</fhi-button>
         </fhi-tooltip>
       </section>
       <section
@@ -179,10 +188,10 @@ export const Placement: Story = {
         <fhi-tooltip
           message=${args.message}
           delay="150"
-          placement="rightStart"
+          placement="right-start"
           max-width="9rem"
         >
-          <fhi-button size="small" variant="outlined">rightStart</fhi-button>
+          <fhi-button size="small" variant="outlined">right-start</fhi-button>
         </fhi-tooltip>
         <fhi-tooltip
           message=${args.message}
@@ -195,10 +204,10 @@ export const Placement: Story = {
         <fhi-tooltip
           message=${args.message}
           delay="150"
-          placement="rightEnd"
+          placement="right-end"
           max-width="9rem"
         >
-          <fhi-button size="small" variant="outlined">rightEnd</fhi-button>
+          <fhi-button size="small" variant="outlined">right-end</fhi-button>
         </fhi-tooltip>
       </section>
       <section
@@ -213,10 +222,10 @@ export const Placement: Story = {
         <fhi-tooltip
           message=${args.message}
           delay="150"
-          placement="bottomStart"
+          placement="bottom-start"
           max-width="9rem"
         >
-          <fhi-button size="small" variant="outlined">bottomStart</fhi-button>
+          <fhi-button size="small" variant="outlined">bottom-start</fhi-button>
         </fhi-tooltip>
         <fhi-tooltip
           message=${args.message}
@@ -229,10 +238,10 @@ export const Placement: Story = {
         <fhi-tooltip
           message=${args.message}
           delay="150"
-          placement="bottomEnd"
+          placement="bottom-end"
           max-width="9rem"
         >
-          <fhi-button size="small" variant="outlined">bottomEnd</fhi-button>
+          <fhi-button size="small" variant="outlined">bottom-end</fhi-button>
         </fhi-tooltip>
       </section>
     </section>
@@ -240,6 +249,88 @@ export const Placement: Story = {
   args: {
     message: 'Dette er en tooltip som går over flere linjer',
   },
+};
+
+export const Default: Story = {
+  args: {
+    message: 'Liten og informativ tekst',
+  },
+};
+
+// This story is used to test the auto-positioning of the tooltip in the docs
+export const HiddenAutoPositionExample: Story = {
+  tags: ['!dev'],
+  render: args => html`
+    <div
+      style="
+        overflow: auto;
+        width: 400px;
+        height: 400px;
+        border: 1px solid #ccc;
+      "
+    >
+      <div
+        style="
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 1000px;
+          height: 1000px;
+        "
+      >
+        <fhi-tooltip
+          message=${ifDefined(args.message)}
+          placement=${ifDefined(args.placement)}
+          trigger=${ifDefined(args.trigger)}
+        >
+          <fhi-button size="small" variant="outlined" aria-label="HEI PÅ DEG"
+            >Click me and scroll around</fhi-button
+          >
+        </fhi-tooltip>
+      </div>
+    </div>
+  `,
+  parameters: {
+    layout: 'centered',
+    options: {
+      showPanel: false,
+      showNav: false,
+      showToolbar: false,
+    },
+  },
+  args: {
+    message: 'Liten og informativ tekst',
+    placement: 'top',
+    trigger: 'click',
+  },
+};
+
+function handleIframeLoad(this: HTMLIFrameElement) {
+  const newStyleElement = document.createElement('style');
+  newStyleElement.textContent =
+    'body { display: block !important; } #storybook-root { padding: 0 !important; }';
+  this.contentDocument?.head.appendChild(newStyleElement);
+  return false;
+}
+
+export const autoPosition: Story = {
+  tags: ['!dev'],
+  args: {
+    placement: 'bottom',
+    trigger: 'hover',
+  },
+
+  render: () => html`
+    <iframe
+      src="iframe.html?viewMode=story&amp;id=komponenter-tooltip--hidden-auto-position-example"
+      width="402px"
+      height="402px"
+      frameborder="0"
+      style="body { display: block; }"
+      .onload=${handleIframeLoad}
+    >
+    </iframe>
+  `,
 };
 
 export default meta;
