@@ -12,7 +12,6 @@ import '@folkehelseinstituttet/designsystem/fhi-button';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
   imports: [RouterOutlet, ReactiveFormsModule, FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
