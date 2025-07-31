@@ -1,5 +1,53 @@
 # Changelog
 
+## [0.7.0](https://github.com/FHIDev/Fhi.Designsystem/compare/v0.6.0...v0.7.0) (2025-07-31)
+
+
+### 🚀 Features
+
+* New icons, such as pencil, folder, pin, alternative link and repeat ([#224](https://github.com/FHIDev/Fhi.Designsystem/issues/224)) ([d476b28](https://github.com/FHIDev/Fhi.Designsystem/commit/d476b285d0a562f758dee318ce8127af9b2da44e))
+
+## [0.6.0](https://github.com/FHIDev/Fhi.Designsystem/compare/v0.5.0...v0.6.0) (2025-07-02)
+
+
+### 🚀 Features
+
+* New Mail icon ([#216](https://github.com/FHIDev/Fhi.Designsystem/issues/216)) ([c6cdd4f](https://github.com/FHIDev/Fhi.Designsystem/commit/c6cdd4f65eb9d720fc352fd0d5c3dcc41c1ea811))
+
+## [0.5.0](https://github.com/FHIDev/Fhi.Designsystem/compare/v0.4.0...v0.5.0) (2025-06-16)
+
+
+### 🚀 Features
+
+* New Component: Tooltip ([#202](https://github.com/FHIDev/Fhi.Designsystem/issues/202)) ([3ced631](https://github.com/FHIDev/Fhi.Designsystem/commit/3ced63164fe5bf9001f68268e22eedb009fdd427))
+
+
+### 📑 Documentation
+
+* Add documentation for setting up DIY typescript support in React ([bb13ab8](https://github.com/FHIDev/Fhi.Designsystem/commit/bb13ab844207aa8a7c4275b36c90fc494434df25))
+
+
+### Other
+
+* update snippets ([#198](https://github.com/FHIDev/Fhi.Designsystem/issues/198)) ([0cee5a8](https://github.com/FHIDev/Fhi.Designsystem/commit/0cee5a85ee6eea0787e615bb867518ec8191940e))
+
+## [0.4.0](https://github.com/FHIDev/Fhi.Designsystem/compare/v0.3.0...v0.4.0) (2025-05-26)
+
+
+### 🚀 Features
+
+* Rename and change value of font-family token. ([#200](https://github.com/FHIDev/Fhi.Designsystem/issues/200)) ([20e2187](https://github.com/FHIDev/Fhi.Designsystem/commit/20e218713a4fb556562cdab1018978f5d89760fb))
+
+
+### 📑 Documentation
+
+* Made 'Kom i gang' the new landing page. ([#199](https://github.com/FHIDev/Fhi.Designsystem/issues/199)) ([faed3d6](https://github.com/FHIDev/Fhi.Designsystem/commit/faed3d627923e22753981ef130340f4e23283aa1))
+
+
+### Other
+
+* minify the design tokens css file ([#196](https://github.com/FHIDev/Fhi.Designsystem/issues/196)) ([13aaad7](https://github.com/FHIDev/Fhi.Designsystem/commit/13aaad7cd8a409eb1fdc4f5ba1ea0f1501f614fc))
+
 ## [0.3.0](https://github.com/FHIDev/Fhi.Designsystem/compare/v0.2.3...v0.3.0) (2025-05-15)
 
 

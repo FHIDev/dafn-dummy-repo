@@ -1,5 +1,5 @@
 {
-  "name": "fhi-designsystem-team",
+  "name": "dafn-dummy-repo-team",
   "version": "1.0.0",
   "description": "monorepo for packages related to the FHI design system",
   "scripts": {
@@ -11,18 +11,18 @@
   "license": "ISC",
   "lint-staged": {
     "*.{js,ts}": [
-      "eslint --fix --ignore-pattern **/dist",
+      "eslint --fix",
       "prettier --write"
     ]
   },
   "devDependencies": {
-    "eslint": "^9.10.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-lit": "^1.15.0",
-    "husky": "^9.1.6",
-    "lint-staged": "^15.2.10",
-    "prettier": "^3.3.3",
-    "typescript": "^5.5.0",
-    "typescript-eslint": "^8.5.0"
+    "eslint": "~9.10.0",
+    "eslint-config-prettier": "~9.1.0",
+    "eslint-plugin-lit": "~1.15.0",
+    "husky": "~9.1.6",
+    "lint-staged": "~15.2.10",
+    "prettier": "~3.3.3",
+    "typescript": "~5.5.0",
+    "typescript-eslint": "~8.5.0"
   }
 }
