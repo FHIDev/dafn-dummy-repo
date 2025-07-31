@@ -26,30 +26,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Guard - BREAKING CHANGE should not be in body
-        id: guard_breaking_change
-        run: |
-          LAST_COMMIT_MESSAGE="${{ github.event.head_commit.message }}"
-          echo "Commit message: \"$LAST_COMMIT_MESSAGE\""
-          if [[ "$LAST_COMMIT_MESSAGE" == *"BREAKING CHANGE"* ]]; then
-              echo "ERROR: Commit message should not include 'BREAKING CHANGE'."
-              exit 1
-          fi
-        shell: bash
-
-      - name: Guard - Decide if Package & Docs should run
-        id: guard_job
-        run: |
-          LAST_COMMIT_MESSAGE="${{ github.event.head_commit.message }}"
-          echo "Commit message: \"$LAST_COMMIT_MESSAGE\""
-          if [[ "$LAST_COMMIT_MESSAGE" != feat:\ * && "$LAST_COMMIT_MESSAGE" != fix:\ * ]]; then
-              echo "Commit message does not include 'feat: ' nor 'fix: '. Package & Docs pipeline will not run."
-              echo "should_run=false" >> "$GITHUB_OUTPUT"
-          else
-              echo "should_run=true" >> "$GITHUB_OUTPUT"
-          fi
-        shell: bash
-
       - name: Install pnpm
         if: steps.guard_job.outputs.should_run == 'true'
         uses: pnpm/action-setup@v4
