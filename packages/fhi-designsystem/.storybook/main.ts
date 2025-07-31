@@ -6,6 +6,7 @@ const config: StorybookConfig = {
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@chromatic-com/storybook',
+    'storybook-design-token',
   ],
   framework: {
     name: '@storybook/web-components-vite',

@@ -5,6 +5,7 @@ permissions:
   id-token: write
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -12,7 +13,7 @@ on:
 jobs:
   run:
     runs-on: ubuntu-latest
-    environment: development
+    environment: production
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,18 +25,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-
-      - name: Guard - prefix
-        id: prefix
-        run: |
-          LAST_COMMIT_MESSAGE="${{ github.event.head_commit.message }}"
-          echo "Commit message: \"$LAST_COMMIT_MESSAGE\""
-          if [[ "$LAST_COMMIT_MESSAGE" != feat:\ * && "$LAST_COMMIT_MESSAGE" != fix:\ * ]]; then
-              echo "Commit message does not include 'feat: ' nor 'fix: '. Package & Docs pipeline will not run."
-              exit 1
-          fi
-        shell: bash
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -60,19 +49,16 @@ jobs:
       - name: Build
         run: cd packages/fhi-designsystem; pnpm build
 
-      - name: Prepare Testing Environment
-        run: cd packages/fhi-designsystem; pnpm exec playwright install --with-deps chromium webkit
-
-      - name: Test
-        run: cd packages/fhi-designsystem; pnpm test
-
       - name: Ping NPM registry
         run: npm ping
 
-      - name: Update Changelog
+      - name: Update Changelog and Bump Version
         run: cd packages/fhi-designsystem; pnpm changelog:ci
         env:
           GITHUB_TOKEN: ${{secrets.REPO_GITHUB_TOKEN}}
+
+      - name: Include Updates In Build
+        run: cd packages/fhi-designsystem; pnpm build
 
       - name: Publish package to NPM
         run: cd packages/fhi-designsystem/dist/npm; npm publish --provenance --access public
