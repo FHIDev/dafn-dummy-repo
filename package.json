@@ -1,5 +1,5 @@
 {
-  "name": "fhi-designsystem-team",
+  "name": "dafn-dummy-package-team",
   "version": "1.0.0",
   "description": "monorepo for packages related to the FHI design system",
   "scripts": {
