@@ -1,5 +1,7 @@
 # Changelog
 
+## [0.0.9627](https://github.com/FHIDev/Fhi.Designsystem/compare/v0.0.9626...v0.0.9627) (2025-08-04)
+
 ## [0.0.9626](https://github.com/FHIDev/Fhi.Designsystem/compare/v0.0.9625...v0.0.9626) (2025-08-04)
 
 ## [0.0.9625](https://github.com/FHIDev/Fhi.Designsystem/compare/v0.0.9624...v0.0.9625) (2025-08-04)
