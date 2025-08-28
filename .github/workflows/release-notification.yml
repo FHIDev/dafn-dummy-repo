@@ -22,12 +22,23 @@ jobs:
         if: success()
         with:
           webhook-uri: ${{ secrets.TEAMS_WEBHOOK_URL }}
-          title: "🚀 Ny versjon av FHI Designsystem: ${{ github.event.release.tag_name || github.event.inputs.release_version }}"
-          message: |
-            **Ny versjon av FHI Designsystem er publisert!**
-
-            📦 Versjon: ${{ github.event.release.tag_name || github.event.inputs.release_version }}
-            📝 Utgivelsesnotater:
-            ${{ github.event.release.body || github.event.inputs.release_notes }}
-
-            For mer informasjon, besøk [GitHub-utgivelsessiden](${{ github.event.release.html_url || format('https://github.com/{0}/releases', github.repository) }}).
+          card-layout-start: |
+            {
+              "@type": "MessageCard",
+              "@context": "http://schema.org/extensions",
+              "themeColor": "0076D7",
+              "summary": "Ny versjon av FHI Designsystem",
+              "sections": [{
+                "activityTitle": "🚀 Ny versjon av FHI Designsystem: ${{ github.event.release.tag_name || github.event.inputs.release_version }}",
+                "activitySubtitle": "**Ny versjon av FHI Designsystem er publisert!**",
+                "facts": [{
+                  "name": "Versjon",
+                  "value": "${{ github.event.release.tag_name || github.event.inputs.release_version }}"
+                },
+                {
+                  "name": "Utgivelsesnotater",
+                  "value": "${{ github.event.release.body || github.event.inputs.release_notes }}"
+                }],
+                "markdown": true
+              }]
+            }
