@@ -17,8 +17,8 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Send Release Notification
-        uses: toko-bifrost/ms-teams-deploy-card@master
+      - name: Microsoft Teams Deploy Card
+        uses: toko-bifrost/ms-teams-deploy-card@3.1.2
         if: success()
         with:
           webhook-uri: ${{ secrets.TEAMS_WEBHOOK_URL }}
