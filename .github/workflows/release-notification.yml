@@ -3,8 +3,6 @@ name: Release Notification
 on:
   release:
     types: [published]
-    branches:
-      - master
   workflow_dispatch:
     inputs:
       release_version:
@@ -19,32 +17,24 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      - name: Microsoft Teams Deploy Card
-        uses: toko-bifrost/ms-teams-deploy-card@3.1.2
-        if: success()
-        with:
-          webhook-uri: ${{ secrets.TEAMS_WEBHOOK_URL }}
-          card-layout-start: |
-            {
-              "@type": "MessageCard",
-              "@context": "http://schema.org/extensions",
-              "themeColor": "0076D7",
-              "summary": "Ny versjon av FHI Designsystem",
-              "sections": [{
-                "activityTitle": "🚀 Ny versjon av FHI Designsystem: ${{ github.event.release.tag_name || github.event.inputs.release_version }}",
-                "activitySubtitle": "**Ny versjon av FHI Designsystem er publisert!**",
-                "facts": [{
-                  "name": "Versjon",
-                  "value": "${{ github.event.release.tag_name || github.event.inputs.release_version }}"
-                },
-                {
-                  "name": "Utgivelsesnotater",
-                  "value": "${{ github.event.release.body || github.event.inputs.release_notes }}"
-                }],
-                "markdown": true
-              }]
-            }
+      - name: Send Teams Notification
+        run: |
+         curl -H 'Content-Type: application/json' -d '{
+            "@type": "MessageCard",
+            "@context": "http://schema.org/extensions",
+            "themeColor": "0076D7",
+            "summary": "Ny versjon av FHI Designsystem",
+            "sections": [{
+              "activityTitle": "&#x1F680; Ny versjon av FHI Designsystem: ${{ github.event.release.tag_name || github.event.inputs.release_version }}",
+              "activitySubtitle": "**Ny versjon av FHI Designsystem er publisert!**",
+              "facts": [{
+                "name": "Versjon",
+                "value": "${{ github.event.release.tag_name || github.event.inputs.release_version }}"
+              },
+              {
+                "name": "Utgivelsesnotater",
+                "value": "${{ github.event.release.body || github.event.inputs.release_notes }}"
+              }],
+              "markdown": true
+            }]
+          }' '${{ secrets.TEAMS_WEBHOOK_URL }}'
