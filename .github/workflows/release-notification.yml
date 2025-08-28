@@ -3,6 +3,8 @@ name: Release Notification
 on:
   release:
     types: [published]
+    branches:
+      - master
   workflow_dispatch:
     inputs:
       release_version:
