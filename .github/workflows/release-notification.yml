@@ -41,6 +41,12 @@ jobs:
                       "wrap": true
                     },
                     {
+                    "type": "TextBlock",
+                    "text": "${{ github.event.release.body || github.event.inputs.release_notes }}",
+                    "wrap": true,
+                    "markdown": true
+                    },
+                    {
                       "type": "FactSet",
                       "facts": [
                         {
@@ -49,7 +55,7 @@ jobs:
                         },
                         {
                           "title": "Utgivelsesnotater",
-                          "value": "${{ github.event.release.body || github.event.inputs.release_notes }}"
+                          "value": "[Se utgivelsesnotater på GitHub](${{ github.event.release.html_url || format('https://github.com/{0}/releases', github.repository)}})"
                         }
                       ]
                     }
