@@ -177,7 +177,7 @@ jobs:
                 });
                 console.log(`Successfully deleted package version.`);
               } else {
-                console.log('Package version not found. It might have been deleted already or never published.');
+                console.log('Package version was not found. It might have been deleted already or never published.');
               }
             } catch (error) {
               console.error(`Could not delete package version. This might happen if the package was never published. Error: ${error.message}`);
