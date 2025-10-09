@@ -157,9 +157,42 @@ export default defineConfig(({ mode }) => {
           outDir: `${OUTPUT_DIRECTORY}/npm`,
         },
       };
+    case 'github':
+      return {
+        plugins: [
+          resolveVirtualModule({
+            moduleId: virtualLibraryModule.path,
+            moduleContent: virtualLibraryModule.code,
+          }),
+          viteStaticCopy({
+            targets: [
+              {
+                src: 'package.json',
+                dest: './',
+              },
+              {
+                src: 'README.md',
+                dest: './',
+              },
+              {
+                src: 'src/theme',
+                dest: './',
+              },
+            ],
+          }),
+        ],
+        build: {
+          lib: {
+            formats: ['es'],
+            entry: { index: virtualLibraryModule.path, ...listOfComponents },
+          },
+          sourcemap: true,
+          outDir: `${OUTPUT_DIRECTORY}/github`,
+        },
+      };
     default:
       throw Error(
-        `Unknown DEPLOY_TARGET: ${env.DEPLOY_TARGET}. DEPLOY_TARGET should be one of these: npm, cdn`,
+        `Unknown DEPLOY_TARGET: ${env.DEPLOY_TARGET}. DEPLOY_TARGET should be one of these: npm, cdn, github`,
       );
   }
 });

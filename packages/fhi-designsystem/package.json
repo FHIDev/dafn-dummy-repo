@@ -1,7 +1,7 @@
 {
   "title": "dafn-dummy-package",
   "author": "FHI Designsystem team",
-  "name": "dafn-dummy-package",
+  "name": "@fhidev/dafn-dummy-package",
   "version": "0.0.11303",
   "description": "The official design system for the Norwegian Institute of Public Health implemented as web components",
   "keywords": [
@@ -38,6 +38,7 @@
     "dev": "vite",
     "build": "pnpm build:cdn && pnpm build:npm",
     "build:cdn": "tsc && cross-env DEPLOY_TARGET=cdn vite build",
+    "build:github": "tsc && cross-env DEPLOY_TARGET=github vite build",
     "build:npm": "tsc && cross-env DEPLOY_TARGET=npm vite build",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
@@ -50,6 +51,7 @@
     "format:eslint": "eslint \"**/*.{js,ts}\" --fix",
     "format:prettier": "prettier \"**/*.js\" --write --ignore-path .gitignore",
     "publish:npm": "pnpm build && cd dist/npm && npm publish",
+    "publish:github": "pnpm build && cd dist/github && npm publish",
     "changelog:ci": "release-it --ci"
   },
   "peerDependencies": {
