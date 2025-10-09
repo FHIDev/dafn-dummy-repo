@@ -11,7 +11,7 @@ export class FhiButton extends LitElement {
     | 'accent'
     | 'neutral'
     | 'something'
-    | 'something-nother51'
+    | 'something-nother515'
     | 'danger' = 'accent';
 
   @property({ type: String, reflect: true }) variant:
