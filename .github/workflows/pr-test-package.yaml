@@ -77,7 +77,7 @@ jobs:
       - name: Set package version for PR
         run: |
           BRANCH_NAME=$(echo "${{ github.head_ref }}" | sed 's/[^a-zA-Z0-9.-]/-/g')
-          echo "BRANC_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
           cd packages/fhi-designsystem
           npm version "0.0.0-$BRANCH_NAME" --no-git-tag-version
 
@@ -93,7 +93,7 @@ jobs:
             console.log(`Checking for and deleting existing package version: ${packageName}@${packageVersion}`);
             
             try {
-              const { data: versions } = await github.rest.packages.getAllPackageVersionsForPackageForOrg({
+              const { data: versions } = await github.rest.packages.getAllPackageVersionsForPackageVersionForOrg({
                 package_type: 'npm',
                 package_name: packageName,
                 org: owner,
@@ -159,7 +159,7 @@ jobs:
             console.log(`PR closed. Attempting to delete package version: ${packageName}@${packageVersion}`);
 
             try {
-              const { data: versions } = await github.rest.packages.getAllPackageVersionsForPackageForOrg({
+              const { data: versions } = await github.rest.packages.getAllPackageVersionsForPackageVersionForOrg({
                 package_type: 'npm',
                 package_name: packageName,
                 org: owner, 
