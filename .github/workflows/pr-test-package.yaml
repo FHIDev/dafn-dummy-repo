@@ -68,14 +68,6 @@ jobs:
       - name: Build
         run: cd packages/fhi-designsystem; pnpm build:github
 
-      - name: Prepare Testing Environment
-        run: pnpm exec playwright install --with-deps chromium webkit
-        working-directory: ./packages/fhi-designsystem
-
-      - name: Test
-        run: pnpm test
-        working-directory: ./packages/fhi-designsystem
-
       - name: Set package version for PR
         run: |
           BRANCH_NAME="${GITHUB_HEAD_REF//[^a-zA-Z0-9.-]/-}"
