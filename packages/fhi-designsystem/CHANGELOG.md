@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.11304](https://github.com/FHIDev/Fhi.Designsystem/compare/v0.9.1...v0.0.11304) (2025-10-09)
+
+
+### 🛠️ Bug Fixes
+
+* update to trigger workflow ([57b6ba2](https://github.com/FHIDev/Fhi.Designsystem/commit/57b6ba2c54064afb81120d1a3f51be9859f7381d))
+
 ## [0.0.11303](https://github.com/FHIDev/Fhi.Designsystem/compare/v0.0.11302...v0.0.11303) (2025-08-28)
 
 ## [0.0.11302](https://github.com/FHIDev/Fhi.Designsystem/compare/v0.0.11301...v0.0.11302) (2025-08-28)
