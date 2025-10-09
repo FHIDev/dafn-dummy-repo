@@ -70,7 +70,7 @@ jobs:
 
       - name: Set package version for PR
         run: |
-          BRANCH_NAME="${GITHUB_HEAD_REF//[^a-zA-Z0-9.-]/-}"
+          BRANCH_NAME=$(echo "${{ github.head_ref }}" | sed 's/[^a-zA-Z0-9.-]/-/g')
           echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
           cd packages/fhi-designsystem
           npm version "0.0.0-$BRANCH_NAME" --no-git-tag-version
