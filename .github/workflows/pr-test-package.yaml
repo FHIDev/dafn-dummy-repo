@@ -79,7 +79,8 @@ jobs:
         id: package_versions
         run: |
           ORG_NAME=${{ github.repository.owner }}
-          PACKAGE_NAME=${{ github.repository.name }}/packages/fhi-designsystem/package.json`).name.split('/')[1];
+          BRANCH_NAME=${{ github.head_ref }}
+          PACKAGE_NAME=$(jq -r .name packages/fhi-designsystem/package.json | cut -d'/' -f2)
           PACKAGE_VERSION="0.0.0-$BRANCH_NAME"
 
           echo "ORG_NAME=$ORG_NAME" >> $GITHUB_ENV
