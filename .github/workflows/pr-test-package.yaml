@@ -108,7 +108,7 @@ jobs:
           echo "Response from GitHub API: $response_body"
 
           if ["$http_code" = "200" ]; then # Safely extract the version id if it exists 
-            version_id=(echo"$responsebody"|jq −r −−arg VERSION"PACKAGE_VERSION" 'map(select(.name == $VERSION)) | .[0].id // empty') 
+            version_id=(echo"$responsebody"|jq -r --arg VERSION"PACKAGE_VERSION" 'map(select(.name == $VERSION)) | .[0].id // empty') 
             if [ -n "$version_id" ]; then 
               echo "Found existing version ID: $version_id" echo "PACKAGE_VERSION_ID=$version_id" >> $GITHUB_ENV 
             else 
