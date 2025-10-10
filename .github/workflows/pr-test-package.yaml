@@ -121,6 +121,8 @@ jobs:
 
           echo "HTTP status: $http_code" 
 
+          echo "TMP Response: $tmp_response"
+
           response_body="$(cat="$tmp_response")"
           # echo "HTTP status: $http_code" 
           echo "Response from GitHub API: $response_body"
