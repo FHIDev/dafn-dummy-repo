@@ -79,14 +79,14 @@ jobs:
       - name: Get all versions of package
         id: package_versions
         run: |
-          ORG_NAME=${{ github.repository.owner }}
+          ORG_NAME=${{ github.repository_owner }}
           BRANCH_NAME=${{ github.head_ref }}
           PACKAGE_NAME=$(jq -r .name packages/fhi-designsystem/package.json | cut -d'/' -f2)
           PACKAGE_VERSION="0.0.0-$BRANCH_NAME"
 
           echo "ORG_NAME=$ORG_NAME" >> $GITHUB_ENV
           echo "Org name: $ORG_NAME" #testing
-          echo "Repo owner: ${{ github.repository.owner }}" #testing
+          echo "Repo owner: ${{ github.repository_owner }}" #testing
           echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_ENV
           echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_ENV
 
