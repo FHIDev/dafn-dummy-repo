@@ -181,9 +181,9 @@ jobs:
           script: |
             const prNumber = context.payload.pull_request.number; 
             const repoOwner = context.repo.owner; 
-            const repoName = context.repo.repo; 
-            const packageName = require(${process.env.GITHUB_WORKSPACE}/packages/fhi-designsystem/package.json).name; 
-            const packageVersion = require(${process.env.GITHUB_WORKSPACE}/packages/fhi-designsystem/dist/github/package.json).version; 
+            const repoName = context.repo.repo;
+            const packageName = require(`${process.env.GITHUB_WORKSPACE}/packages/fhi-designsystem/package.json`).name;
+            const packageVersion = require(`${process.env.GITHUB_WORKSPACE}/packages/fhi-designsystem/package.json`).version;
             const body = `📦 The package for this PR has been published to GitHub Packages.
 
             You can install it using:
@@ -191,7 +191,7 @@ jobs:
             npm install ${packageName}@${packageVersion}
             \`\`\`
             `;
-            await github.rest.issues.createComment({ owner: repoOwner, repo: repoName, issue_number: prNumber, body });
+            await github.rest.issues.createComment({ owner: repoOwner, repo: repoName, issue_number: prNumber, body: body });
 
   unpublish-github-package:
     if: github.event.action == 'closed' && needs.check-for-changes.outputs.has_component_changes == 'true'
