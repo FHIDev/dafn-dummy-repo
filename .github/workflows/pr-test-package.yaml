@@ -86,6 +86,7 @@ jobs:
 
           echo "ORG_NAME=$ORG_NAME" >> $GITHUB_ENV
           echo "Org name: $ORG_NAME" #testing
+          echo "Repo owner: ${{ github.repository.owner }}" #testing
           echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_ENV
           echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_ENV
 
