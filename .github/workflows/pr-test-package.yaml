@@ -126,7 +126,7 @@ jobs:
             echo "$response_body" 
             exit 1 
           fi
-          shell: bash
+        shell: bash
 
       - name: Delete existing package version
         if: env.PACKAGE_VERSION_ID != '' 
