@@ -2,6 +2,7 @@ name: Publish PR to GitHub Packages (Test)
 
 permissions:
   contents: read
+  issues: write
   packages: write
   id-token: write
 
@@ -72,7 +73,7 @@ jobs:
         run: |
           BRANCH_NAME=$(echo "${{ github.head_ref }}" | sed 's/[^a-zA-Z0-9.-]/-/g')
           echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
-          cd packages/fhi-designsystem
+          cd packages/fhi-designsystem/dist/github
           npm version "0.0.0-$BRANCH_NAME" --no-git-tag-version
       
       - name: Get all versions of package
@@ -164,12 +165,13 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const prNumber = context.issue.number;
-            const repoOwner = context.repo.owner;
-            const packageName = require(`${process.env.GITHUB_WORKSPACE}/packages/fhi-designsystem/package.json`).name;
-            const packageVersion = require(`${process.env.GITHUB_WORKSPACE}/packages/fhi-designsystem/dist/github/package.json`).version;
-            const body = `📦 The package for this PR has been published to GitHub Packages.\n\nYou can install it using:\n\`\`\`\nnpm install ${packageName}@${packageVersion}\n\`\`\``;
-            await github.rest.issues.createComment({ owner: repoOwner, repo: context.repo.repo, issue_number: prNumber, body: body });
+            const prNumber = context.payload.pull_request.number; 
+            const repoOwner = context.repo.owner; 
+            const repoName = context.repo.repo; 
+            const packageName = require(${process.env.GITHUB_WORKSPACE}/packages/fhi-designsystem/package.json).name; 
+            const packageVersion = require(${process.env.GITHUB_WORKSPACE}/packages/fhi-designsystem/dist/github/package.json).version; 
+            const body = 📦 The package for this PR has been published to GitHub Packages.\n\nYou can install it using:\n\``\nnpm install packageName@{packageVersion}\n````; 
+            await github.rest.issues.createComment({ owner: repoOwner, repo: repoName, issue_number: prNumber, body });
 
   unpublish-github-package:
     if: github.event.action == 'closed' && needs.check-for-changes.outputs.has_component_changes == 'true'
