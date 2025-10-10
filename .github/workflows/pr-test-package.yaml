@@ -110,6 +110,8 @@ jobs:
             "$api_url" -o "$tmp_response"
           )
           
+          echo "HTTP code: $http_code"
+          
           if [ "$http_code" = "200" ]; then
             response=$(curl -L -s -S -w "%{http_code}" \
               -H "Accept: application/vnd.github+json" \
