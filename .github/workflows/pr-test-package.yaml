@@ -88,28 +88,48 @@ jobs:
           echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_ENV
 
           echo "Checking for existing package version: $PACKAGE_NAME@$PACKAGE_VERSION"
-          
-          response=$(curl -s \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            "https://api.github.com/orgs/$ORG_NAME/packages/npm/$PACKAGE_NAME/versions"
-          )
-          
-          echo "Response from GitHub API: $response"
 
-          version_id=$(echo "$response" | jq -r --arg VERSION "$PACKAGE_VERSION" '.[] | select(.name == $VERSION) | .id')
+          owner_info=$(curl -s \
+            -H "Accept: application/vnd.github+json"
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}"
+            "https://api.github.com/users/$ORG_NAME") owner_type=$(echo "$owner_info" | jq -r '.type // empty')
 
-          if [ -n "$version_id" ]; then
-            echo "Found existing version ID: $version_id"
-            echo "PACKAGE_VERSION_ID=$version_id" >> $GITHUB_ENV
-          else
-            echo "No existing version found for $PACKAGE_VERSION."
-            echo "PACKAGE_VERSION_ID=" >> $GITHUB_ENV
+          if [ "$owner_type" = "Organization" ]; then 
+            api_url="https://api.github.com/orgs/$ORG_NAME/packages/npm/$PACKAGE_NAME/versions" 
+          else 
+            api_url="https://api.github.com/users/$ORG_NAME/packages/npm/$PACKAGE_NAME/versions" 
           fi
+          
+          tmp_response="$(mktemp)" http_code=$(curl -s -S -w "%{http_code}"
+            -H "Accept: application/vnd.github+json"
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}"
+            -H "X-GitHub-Api-Version: 2022-11-28"
+            "$api_url" -o "$tmp_response")
+
+          response_body="$(cat="$tmp_response") echo "HTTP status: $http_code" echo "Response from GitHub API: $response_body"
+
+          if ["$http_code" = "200" ]; then # Safely extract the version id if it exists 
+            version_id=(echo"$responsebody"|jq −r −−arg VERSION"PACKAGE_VERSION" 'map(select(.name == $VERSION)) | .[0].id // empty') 
+            if [ -n "$version_id" ]; then 
+              echo "Found existing version ID: $version_id" echo "PACKAGE_VERSION_ID=$version_id" >> $GITHUB_ENV 
+            else 
+              echo "No existing version found for $PACKAGE_VERSION." 
+              echo "PACKAGE_VERSION_ID=" >> $GITHUB_ENV 
+            fi 
+          elif [ "$http_code" = "404" ]; then 
+            # Package does not exist (first publish) or endpoint wrong — treat as no version found 
+            echo "Package not found (404). No existing versions to delete." 
+            echo "PACKAGE_VERSION_ID=" >> $GITHUB_ENV 
+          else 
+            # Unexpected response — fail so maintainers can investigate 
+            echo "Unexpected HTTP response $http_code from $api_url" 
+            echo "$response_body" 
+            exit 1 
+          fi 
+          shell: bash
 
       - name: Delete existing package version
-        if: env.PACKAGE_VERSION_ID != ''
+        if: env.PACKAGE_VERSION_ID != '' 
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
