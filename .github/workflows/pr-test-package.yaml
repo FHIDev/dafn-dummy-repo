@@ -100,10 +100,10 @@ jobs:
             api_url="https://api.github.com/users/$ORG_NAME/packages/npm/$PACKAGE_NAME/versions" 
           fi
           
-          tmp_response="$(mktemp)" http_code=$(curl -s -S -w "%{http_code}"
-            -H "Accept: application/vnd.github+json"
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}"
-            -H "X-GitHub-Api-Version: 2022-11-28"
+          tmp_response="$(mktemp)" http_code=$(curl -s -S -w "%{http_code}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
             "$api_url" -o "$tmp_response")
 
           response_body="$(cat="$tmp_response") echo "HTTP status: $http_code" echo "Response from GitHub API: $response_body"
