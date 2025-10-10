@@ -170,7 +170,13 @@ jobs:
             const repoName = context.repo.repo; 
             const packageName = require(${process.env.GITHUB_WORKSPACE}/packages/fhi-designsystem/package.json).name; 
             const packageVersion = require(${process.env.GITHUB_WORKSPACE}/packages/fhi-designsystem/dist/github/package.json).version; 
-            const body = 📦 The package for this PR has been published to GitHub Packages.\n\nYou can install it using:\n\``\nnpm install packageName@{packageVersion}\n````; 
+            const body = `📦 The package for this PR has been published to GitHub Packages.
+
+            You can install it using:
+            \`\`\`
+            npm install ${packageName}@${packageVersion}
+            \`\`\`
+            `;
             await github.rest.issues.createComment({ owner: repoOwner, repo: repoName, issue_number: prNumber, body });
 
   unpublish-github-package:
