@@ -89,10 +89,7 @@ jobs:
 
           echo "Checking for existing package version: $PACKAGE_NAME@$PACKAGE_VERSION"
 
-          owner_info=$(curl -s \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            "https://api.github.com/users/$ORG_NAME") owner_type=$(echo "$owner_info" | jq -r '.type // empty')
+          owner_info=$(curl -s -H "Accept: application/vnd.github+json" -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/users/$ORG_NAME") owner_type=$(echo "$owner_info" | jq -r '.type // empty')
 
           if [ "$owner_type" = "Organization" ]; then 
             api_url="https://api.github.com/orgs/$ORG_NAME/packages/npm/$PACKAGE_NAME/versions" 
