@@ -98,6 +98,8 @@ jobs:
             api_url="https://api.github.com/users/$ORG_NAME/packages/npm/$PACKAGE_NAME/versions" 
           fi
           
+          echo "API URL: $api_url"
+
           tmp_response="$(mktemp)" http_code=$(curl -s -S -w "%{http_code}" \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
