@@ -98,6 +98,8 @@ jobs:
             api_url="https://api.github.com/users/$ORG_NAME/packages/npm/$PACKAGE_NAME/versions/$PACKAGE_VERSION" 
           fi
           
+          echo "API URL: $api_url"
+
           # Change this to try and get the exact version, then go through responses to see what to do.
           # https://docs.github.com/en/rest/packages/packages?apiVersion=2022-11-28#get-a-package-version-for-an-organization
           
