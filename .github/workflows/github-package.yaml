@@ -94,8 +94,10 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             github.rest.issues.createComment({
-              issue_number: ${{ github.event.pull_request.number }},
-              owner: ${{ github.repository_owner }},
-              repo: ${{ github.event.repository.name }},
-              body: 'Github Package published: `@fhidev/designsystem-pull-request-${{ github.event.pull_request.number }}@0.0.${{ github.run_number }}`'
-            })
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `**Github Package published:**  
+            \`@fhidev/designsystem-pull-request-${{ github.event.pull_request.number }}@0.0.${{ github.run_number }}\`  
+            [View on GitHub Packages](https://github.com/orgs/FHIDev/packages?repo_name=${context.repo.repo})`
+                  })
