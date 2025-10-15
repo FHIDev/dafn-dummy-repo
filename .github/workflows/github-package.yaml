@@ -10,14 +10,15 @@ on:
     types: [opened, synchronize, reopened, closed]
     branches: [master]
 
+env: 
+  PACKAGE_SCOPE: "@fhidev"
+  PACKAGE_NAME: "designsystem-pull-request-${{ github.event.pull_request.number }}"
+  PACKAGE_VERSION: "0.0.${{ github.run_number }}"
+
 jobs:
   publish-github-package:
     runs-on: ubuntu-latest
     environment: development
-    env:
-      PACKAGE_SCOPE: "@fhidev"
-      PACKAGE_NAME: "designsystem-pull-request-${{ github.event.pull_request.number }}"
-      PACKAGE_VERSION: "0.0.${{ github.run_number }}"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -88,6 +89,12 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm publish
 
+  comment_on_pr:
+    needs: publish-github-package
+    runs-on: ubuntu-latest
+    environment: development
+    if: github.event.action != 'closed'
+    steps:
       - name: Comment on PR with package info
         uses: actions/github-script@v8
         with:
