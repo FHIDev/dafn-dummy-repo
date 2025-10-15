@@ -98,5 +98,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: `**Staging NPM Package published:** \`@fhidev/designsystem-pull-request-${{ github.event.pull_request.number }}@0.0.${{ github.run_number }}\`
-            [View on GitHub Packages](https://github.com/FHIDev/${{ github.event.repository.name }}/pkgs/npm/designsystem-pull-request-${{ github.event.pull_request.number }})`
+            [View on GitHub Packages](https://github.com/FHIDev/${{ github.event.repository.name }}/pkgs/npm/${{ env.PACKAGE_NAME }})`
                   })
