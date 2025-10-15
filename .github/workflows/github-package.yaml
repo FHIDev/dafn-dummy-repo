@@ -53,7 +53,7 @@ jobs:
             OWNER: ${{ github.repository_owner }}
         run: |
             QUERY='
-            query($owner: String!, $name: String!) {
+            query($owner: String!) {
                 repository(owner: $owner, name: "'$(basename $GITHUB_REPOSITORY)'") {
                 packages(first: 100, packageType: NPM) {
                     nodes {
