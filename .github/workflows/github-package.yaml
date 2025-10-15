@@ -16,7 +16,31 @@ env:
   PACKAGE_VERSION: "0.0.${{ github.run_number }}"
 
 jobs:
+  check-for-changes:
+    runs-on: ubuntu-latest
+    outputs:
+        has_component_changes: ${{ steps.check_files.outputs.component_changed }}
+    steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+        
+        - name: Check for component file changes
+          id: check_files
+          run: |
+            changed=$(git diff --name-only --diff-filter=d ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }} | grep '\.component\.ts$' || true)
+            if [ -n "$changed" ]; then
+              echo "Found changed component files. Proceeding..."
+              echo "component_changed=true" >> $GITHUB_OUTPUT
+            else
+              echo "No component files changed. Skipping workflow."
+              echo "component_changed=false" >> $GITHUB_OUTPUT
+            fi
+
   publish-github-package:
+    needs: check-for-changes
+    if: needs.check-for-changes.outputs.has_component_changes == 'true' && github.event.action != 'closed'
     runs-on: ubuntu-latest
     environment: development
     steps:
