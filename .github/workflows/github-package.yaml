@@ -1,0 +1,90 @@
+name: Publish PR to GitHub Packages (Test 2)
+
+permissions:
+  contents: read
+  issues: write
+  packages: write
+  id-token: write
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches: [master]
+
+jobs:
+  check-for-changes:
+    runs-on: ubuntu-latest
+    outputs:
+        has_component_changes: ${{ steps.check_files.outputs.component_changed }}
+    steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+        
+        - name: Check for component file changes
+          id: check_files
+          run: |
+            if git diff --name-only --diff-filter=d ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }} | grep -q '\.component\.ts$'; then
+              echo "Found changed component files. Proceeding..."
+              echo "component_changed=true" >> $GITHUB_OUTPUT 
+            else
+              echo "No component files changed. Skipping workflow."
+              echo "component_changed=false" >> $GITHUB_OUTPUT
+            fi
+  publish-github-package:
+    needs: [check-for-changes]
+    if: github.event.action != 'closed' && needs.check-for-changes.outputs.has_component_changes == 'true'
+    runs-on: ubuntu-latest
+    environment: development
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          registry-url: 'https://npm.pkg.github.com'
+
+      - name: Install dependencies
+        run: pnpm i
+
+      - name: Lint
+        run: cd packages/fhi-designsystem; pnpm lint
+
+      - name: Build
+        run: cd packages/fhi-designsystem; pnpm build:github
+      - name: Search for npm package in GitHub Packages with GraphQL
+        env:
+            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            PACKAGE_NAME: ${{ github.event.pull_request.title }} # or set this to your desired name
+            OWNER: ${{ github.repository_owner }}
+        run: |
+            QUERY='
+            query($owner: String!, $name: String!) {
+                repository(owner: $owner, name: "'$(basename $GITHUB_REPOSITORY)'") {
+                packages(first: 100, packageType: NPM) {
+                    nodes {
+                    name
+                    id
+                    }
+                }
+                }
+            }
+            '
+            RESULT=$(gh api graphql -f owner="$OWNER" -f name="$PACKAGE_NAME" -f query="$QUERY")
+            echo "$RESULT" | jq
