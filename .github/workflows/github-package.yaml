@@ -46,23 +46,14 @@ jobs:
 
       - name: Build
         run: cd packages/fhi-designsystem; pnpm build:github
-      - name: Search for npm package in GitHub Packages with GraphQL
+      - name: List npm packages in GitHub Packages (REST API)
         env:
             GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            PACKAGE_NAME: ${{ github.event.pull_request.title }} # or set this to your desired name
-            OWNER: ${{ github.repository_owner }}
+            ORG: FHIDev
+            PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
-            QUERY='
-            query($owner: String!) {
-                repository(owner: $owner, name: "'$(basename $GITHUB_REPOSITORY)'") {
-                packages(first: 100, packageType: NPM) {
-                    nodes {
-                    name
-                    id
-                    }
-                }
-                }
-            }
-            '
-            RESULT=$(gh api graphql -f owner="$OWNER" -f name="$PACKAGE_NAME" -f query="$QUERY")
-            echo "$RESULT" | jq
+            echo "PR Title: ${{ github.event.pull_request.title }}"
+            curl -L \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/orgs/$ORG/packages/npm/dafn-dummy-package
