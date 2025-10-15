@@ -14,6 +14,10 @@ jobs:
   publish-github-package:
     runs-on: ubuntu-latest
     environment: development
+    env:
+      PACKAGE_SCOPE: "@fhidev"
+      PACKAGE_NAME: "designsystem-pull-request-${{ github.event.pull_request.number }}"
+      PACKAGE_VERSION: "0.0.${{ github.run_number }}"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -54,8 +58,8 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           PR_RUN_NUMBER: ${{ github.run_number }}
         run: |
-          jq --arg name "@fhidev/designsystem-pull-request-${PR_NUMBER}" \
-            --arg version "0.${PR_NUMBER}.${PR_RUN_NUMBER}" \
+          jq --arg name "${{ env.PACKAGE_SCOPE }}%2F${{ env.PACKAGE_NAME }}" \
+            --arg version "${{ env.PACKAGE_VERSION }}" \
             '.name = $name | .version = $version' package.json > package.tmp.json
           mv package.tmp.json package.json
 
@@ -69,14 +73,14 @@ jobs:
                 -H "Authorization: Bearer $GH_TOKEN" \
                 -H "Accept: application/vnd.github+json" \
                 -H "X-GitHub-Api-Version: 2022-11-28" \
-                https://api.github.com/orgs/$ORG/packages/npm/designsystem-pull-request-${PR_NUMBER} || true
+                https://api.github.com/orgs/$ORG/packages/npm/${{ env.PACKAGE_NAME }} || true
 
 
       - name: Configure npm for GitHub Packages
         working-directory: ./packages/fhi-designsystem/dist/github
         run: |
           echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > .npmrc
-          echo "@fhidev:registry=https://npm.pkg.github.com/" >> .npmrc
+          echo "${{ env.PACKAGE_SCOPE }}:registry=https://npm.pkg.github.com/" >> .npmrc
 
       - name: Publish package to GitHub Packages
         working-directory: ./packages/fhi-designsystem/dist/github
