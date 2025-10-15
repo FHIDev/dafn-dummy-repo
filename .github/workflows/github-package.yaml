@@ -29,7 +29,7 @@ jobs:
         - name: Check for component file changes
           id: check_files
           run: |
-            changed=$(git diff --name-only --diff-filter=d ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }} | grep '\.component\.ts$' || true)
+            changed=$(git diff --name-only --diff-filter=d ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }} | grep -E '\.(component\.ts|css)$' || true)
             if [ -n "$changed" ]; then
               echo "Found changed component files. Proceeding..."
               echo "component_changed=true" >> $GITHUB_OUTPUT
