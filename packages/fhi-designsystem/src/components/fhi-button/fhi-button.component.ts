@@ -7,8 +7,6 @@ export const FhiButtonSelector = 'fhi-button';
 export class FhiButton extends LitElement {
   static readonly formAssociated = true;
 
-  private a = 'e';
-
   @property({ type: String, reflect: true }) color:
     | 'accent'
     | 'neutral'
