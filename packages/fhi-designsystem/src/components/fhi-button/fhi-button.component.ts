@@ -44,6 +44,7 @@ export class FhiButton extends LitElement {
 
   click(): void {
     this._handleClick();
+    console.log('FhiButton click() method called');
   }
 
   private _handleClick(event?: MouseEvent | KeyboardEvent): void {
