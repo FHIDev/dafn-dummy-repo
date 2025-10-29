@@ -1,4 +1,4 @@
-name: Publish PR to GitHub Packages (Test 2)
+name: Publish NPM package of PR to GitHub Packages
 
 permissions:
   contents: read
@@ -11,36 +11,37 @@ on:
     branches: [master]
 
 env: 
-  PACKAGE_SCOPE: "@fhidev"
-  PACKAGE_NAME: "designsystem-pull-request-${{ github.event.pull_request.number }}"
+  PACKAGE_SCOPE: "@dafn-dummy-repo"
+  PACKAGE_NAME: "pull-request-${{ github.event.pull_request.number }}"
   PACKAGE_VERSION: "0.0.${{ github.run_number }}"
 
 jobs:
-  check-for-changes:
+  check_for_changes:
     runs-on: ubuntu-latest
+    if: github.event.action != 'closed'
     outputs:
-        has_component_changes: ${{ steps.check_files.outputs.component_changed }}
+        should_publish_package: ${{ steps.check_files.outputs.should_publish_package }}
     steps:
         - name: Checkout
           uses: actions/checkout@v4
           with:
             fetch-depth: 0
-        
-        - name: Check for component file changes
+
+        - name: Check if component or styling files changed
           id: check_files
           run: |
             changed=$(git diff --name-only --diff-filter=d ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }} | grep -E '\.(component\.ts|css)$' || true)
             if [ -n "$changed" ]; then
-              echo "Found changed component files. Proceeding..."
-              echo "component_changed=true" >> $GITHUB_OUTPUT
+              echo "Found changed component or css files. Proceeding..."
+              echo "should_publish_package=true" >> $GITHUB_OUTPUT
             else
-              echo "No component files changed. Skipping workflow."
-              echo "component_changed=false" >> $GITHUB_OUTPUT
+              echo "No component or css files changed. Skipping workflow."
+              echo "should_publish_package=false" >> $GITHUB_OUTPUT
             fi
 
-  publish-github-package:
-    needs: check-for-changes
-    if: needs.check-for-changes.outputs.has_component_changes == 'true' && github.event.action != 'closed'
+  publish_github_package:
+    needs: check_for_changes
+    if: needs.check_for_changes.outputs.should_publish_package == 'true' && github.event.action != 'closed'
     runs-on: ubuntu-latest
     environment: development
     steps:
@@ -77,7 +78,7 @@ jobs:
         working-directory: ./packages/fhi-designsystem
         run: pnpm build:github
 
-      - name: Update package name for staging
+      - name: Update package name and version for staging
         working-directory: ./packages/fhi-designsystem/dist/github
         env:
           PR_NUMBER: ${{ github.event.pull_request.number }}
@@ -89,17 +90,15 @@ jobs:
           mv package.tmp.json package.json
 
       - name: Delete staging package if it already exists
-        env:
-            ORG: FHIDev
-            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            PR_NUMBER: ${{ github.event.pull_request.number }}
-        run: |
-            curl -X DELETE \
-                -H "Authorization: Bearer $GH_TOKEN" \
-                -H "Accept: application/vnd.github+json" \
-                -H "X-GitHub-Api-Version: 2022-11-28" \
-                https://api.github.com/orgs/$ORG/packages/npm/${{ env.PACKAGE_NAME }} || true
-
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.rest.packages.deletePackageForOrg({
+              package_type: "npm",
+              package_name: `${{ env.PACKAGE_SCOPE }}/${{ env.PACKAGE_NAME }}`,
+              org: "FHIDev"
+            })
 
       - name: Configure npm for GitHub Packages
         working-directory: ./packages/fhi-designsystem/dist/github
@@ -114,7 +113,7 @@ jobs:
         run: npm publish
 
   comment_on_pr:
-    needs: publish-github-package
+    needs: publish_github_package
     runs-on: ubuntu-latest
     environment: development
     if: github.event.action != 'closed'
@@ -131,3 +130,19 @@ jobs:
               body: `**Staging NPM Package published:** \`${{ env.PACKAGE_SCOPE }}/${{ env.PACKAGE_NAME }}@0.0.${{ github.run_number }}\`
             [View on GitHub Packages](https://github.com/FHIDev/${{ github.event.repository.name }}/pkgs/npm/${{ env.PACKAGE_NAME }})`
                   })
+
+  clean_up_github_package:
+      if: github.event.action == 'closed'
+      runs-on: ubuntu-latest
+      environment: development
+      steps:
+        - name: Clean up potential PR staging package
+          uses: actions/github-script@v8
+          with:
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+            script: |
+              await github.rest.packages.deletePackageForOrg({
+                package_type: "npm",
+                package_name: `${{ env.PACKAGE_SCOPE }}/${{ env.PACKAGE_NAME }}`,
+                org: "FHIDev"
+              })
