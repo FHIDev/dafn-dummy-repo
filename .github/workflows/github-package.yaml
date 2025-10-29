@@ -11,7 +11,7 @@ on:
     branches: [master]
 
 env:
-  PACKAGE_SCOPE: '@dafn-dummy-repo'
+  PACKAGE_SCOPE: '@fhidev'
   PACKAGE_NAME: 'pull-request-${{ github.event.pull_request.number }}'
   PACKAGE_VERSION: '0.0.${{ github.run_number }}'
 
@@ -101,8 +101,12 @@ jobs:
                 org: "FHIDev"
               })
             } catch (error) {
-              console.warn("No existing package to delete or error occurred:", error.status);
-            }
+             if (error.status === 404) {
+                console.log("No existing package to delete.");
+                return;
+              }
+                throw error;
+              }
 
       - name: Configure npm for GitHub Packages
         working-directory: ./packages/fhi-designsystem/dist/github
