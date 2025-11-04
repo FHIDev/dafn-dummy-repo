@@ -1,40 +1,60 @@
-name: Package & Docs
+name: Pull Request Guard
 
 permissions:
   contents: write
   id-token: write
+  issues: write
+  packages: write
 
 on:
-  push:
+  pull_request:
+    types: [opened, synchronize, reopened]
     branches:
-      - never
+      - main
+
+env:
+  PACKAGE_SCOPE: '@fhidev'
+  PACKAGE_NAME: 'pull-request-${{ github.event.pull_request.number }}'
+  PACKAGE_VERSION: '0.0.${{ github.run_number }}'
 
 jobs:
-  run:
+  check_for_package_changes:
+    runs-on: ubuntu-latest
+    if: github.event.action != 'closed'
+    outputs:
+      should_publish_package: ${{ steps.check_files.outputs.should_publish_package }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check if component or styling files changed
+        id: check_files
+        run: |
+          changed=$(git diff --name-only --diff-filter=d ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }} | grep -E '\.(component\.ts|css)$' || true)
+          if [ -n "$changed" ]; then
+            echo "Found changed component or css files. Proceeding..."
+            echo "should_publish_package=true" >> $GITHUB_OUTPUT
+          else
+            echo "No component or css files changed. Skipping workflow."
+            echo "should_publish_package=false" >> $GITHUB_OUTPUT
+          fi
+
+  build_and_test:
+    name: Build and Test
     runs-on: ubuntu-latest
     environment: development
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ssh-key: ${{ secrets.DEPLOY_KEY }}
           fetch-depth: 0
 
       - name: Configure Git
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-      - name: Guard - prefix
-        id: prefix
-        run: |
-          LAST_COMMIT_MESSAGE="${{ github.event.head_commit.message }}"
-          echo "Commit message: \"$LAST_COMMIT_MESSAGE\""
-          if [[ "$LAST_COMMIT_MESSAGE" != feat:\ * && "$LAST_COMMIT_MESSAGE" != fix:\ * ]]; then
-              echo "Commit message does not include 'feat: ' nor 'fix: '. Package & Docs pipeline will not run."
-              exit 1
-          fi
-        shell: bash
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -47,34 +67,124 @@ jobs:
         with:
           node-version: lts/*
           registry-url: 'https://registry.npmjs.org/'
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
       - name: Install dependencies
         run: pnpm i
 
       - name: Lint
-        run: cd packages/fhi-designsystem; pnpm lint
+        working-directory: ./packages/fhi-designsystem
+        run: pnpm lint
 
       - name: Build
-        run: cd packages/fhi-designsystem; pnpm build
+        working-directory: ./packages/fhi-designsystem
+        run: pnpm build
 
       - name: Prepare Testing Environment
-        run: cd packages/fhi-designsystem; pnpm exec playwright install --with-deps chromium webkit
+        working-directory: ./packages/fhi-designsystem
+        run: pnpm exec playwright install --with-deps chromium webkit
 
       - name: Test
-        run: cd packages/fhi-designsystem; pnpm test
+        working-directory: ./packages/fhi-designsystem
+        run: pnpm test
 
-      - name: Ping NPM registry
-        run: npm ping
+      - name: Upload build artifact for Github Packages 
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact
+          path: ./packages/fhi-designsystem/dist/github
 
-      - name: Update Changelog
-        run: cd packages/fhi-designsystem; pnpm changelog:ci
+  deploy_staging_storybook:
+    runs-on: ubuntu-latest
+    environment: development
+    needs: check_for_package_changes
+    if: needs.check_for_package_changes.outputs.should_publish_package == 'hello'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build Storybook
+        working-directory: ./packages/fhi-designsystem
+        run: pnpm storybook:build
+
+      - name: Deploy Storybook
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          repo_token: ${{ secrets.REPO_GITHUB_TOKEN }}
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STORYBOOK_API_TOKEN }}
+          action: 'upload'
+          app_location: 'packages/fhi-designsystem/storybook-static'
+          skip_app_build: true
+
+  publish_staging_package:
+    runs-on: ubuntu-latest
+    environment: development
+    needs: [check_for_package_changes, build_and_test]
+    if: needs.check_for_package_changes.outputs.should_publish_package == 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download build artifact for Github Packages
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifact
+          path: ./packages/fhi-designsystem/dist/github
+
+      - name: Update GitHub Package name and version for staging
+        working-directory: ./packages/fhi-designsystem/dist/github
         env:
-          GITHUB_TOKEN: ${{secrets.REPO_GITHUB_TOKEN}}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          jq --arg name "${{ env.PACKAGE_SCOPE }}/${{ env.PACKAGE_NAME }}" \
+            --arg version "${{ env.PACKAGE_VERSION }}" \
+            '.name = $name | .version = $version' package.json > package.tmp.json
+          mv package.tmp.json package.json
 
-      - name: Include Updated Changelog In Build
-        run: cd packages/fhi-designsystem; pnpm build
+      - name: Delete staging package if it already exists
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            try {
+              await github.rest.packages.deletePackageForOrg({
+                package_type: "npm",
+                package_name: `${{ env.PACKAGE_SCOPE }}/${{ env.PACKAGE_NAME }}`,
+                org: "FHIDev"
+              })
+            } catch (error) {
+             if (error.status === 404) {
+                console.log("No existing package to delete.");
+                return;
+              }
+                throw error;
+              }
 
-      - name: Publish package to NPM
-        run: cd packages/fhi-designsystem/dist/npm; npm publish --provenance --access public
+      - name: Configure npm for publishing on GitHub Packages
+        working-directory: ./packages/fhi-designsystem/dist/github
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > .npmrc
+          echo "${{ env.PACKAGE_SCOPE }}:registry=https://npm.pkg.github.com/" >> .npmrc
+
+      - name: Publish package to GitHub Packages
+        working-directory: ./packages/fhi-designsystem/dist/github
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm publish
+
+      - name: Comment on PR with package info
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{secrets.REPO_GITHUB_TOKEN}}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `**Staging NPM Package published:** \`${{ env.PACKAGE_SCOPE }}/${{ env.PACKAGE_NAME }}@0.0.${{ github.run_number }}\`
+            [View on GitHub Packages](https://github.com/FHIDev/${{ github.event.repository.name }}/pkgs/npm/${{ env.PACKAGE_NAME }})`
+                  })
