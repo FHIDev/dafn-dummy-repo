@@ -36,7 +36,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "pnpm build:cdn && pnpm build:npm",
+    "build": "pnpm build:cdn && pnpm build:npm && pnpm build:github",
     "build:cdn": "tsc && cross-env DEPLOY_TARGET=cdn vite build",
     "build:github": "tsc && cross-env DEPLOY_TARGET=github vite build",
     "build:npm": "tsc && cross-env DEPLOY_TARGET=npm vite build",
