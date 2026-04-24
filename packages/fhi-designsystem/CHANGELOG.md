@@ -1,5 +1,7 @@
 # Changelog
 
+## [0.0.11307](///compare/v0.0.11306...v0.0.11307) (2026-04-24)
+
 ## [0.0.11306](https://github.com/FHIDev/dafn-dummy-repo/compare/v0.0.11305...v0.0.11306) (2026-04-24)
 
 ## [0.0.11305](https://github.com/FHIDev/dafn-dummy-repo/compare/v0.0.11304...v0.0.11305) (2026-04-24)
