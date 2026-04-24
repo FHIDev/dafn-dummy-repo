@@ -16,7 +16,7 @@ export class FhiButton extends LitElement {
     | 'strong'
     | 'subtle'
     | 'outlined'
-    | 'text' = 'subtle';
+    | 'text' = 'strong';
 
   @property({ type: String, reflect: true }) size:
     | 'large'
