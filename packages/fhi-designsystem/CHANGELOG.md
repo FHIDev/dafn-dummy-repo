@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.0.11305](https://github.com/FHIDev/dafn-dummy-repo/compare/v0.0.11304...v0.0.11305) (2026-04-24)
+
+### Other
+
+* oppdater workflow ([b3ccea0](https://github.com/FHIDev/dafn-dummy-repo/commit/b3ccea0f000eb19fe08eaeb96ba21e62a7633535))
+
 ## [0.0.11304](https://github.com/FHIDev/Fhi.Designsystem/compare/v0.9.1...v0.0.11304) (2025-10-09)
 
 
