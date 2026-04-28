@@ -10,7 +10,7 @@ export class FhiButton extends LitElement {
   @property({ type: String, reflect: true }) color:
     | 'accent'
     | 'neutral'
-    | 'danger' = 'neutral';
+    | 'danger' = 'accent';
 
   @property({ type: String, reflect: true }) variant:
     | 'strong'
