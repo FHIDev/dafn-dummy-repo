@@ -21,7 +21,7 @@ export class FhiButton extends LitElement {
   @property({ type: String, reflect: true }) size:
     | 'large'
     | 'medium'
-    | 'small' = 'medium';
+    | 'small' = 'small';
 
   @property({ type: Boolean, reflect: true }) disabled = false;
 
