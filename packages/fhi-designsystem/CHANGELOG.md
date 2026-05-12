@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.0.11313](https://github.com/FHIDev/dafn-dummy-repo/compare/v0.0.11311...v0.0.11313) (2026-05-12)
+
+### Other
+
+* update dep ([98ee47f](https://github.com/FHIDev/dafn-dummy-repo/commit/98ee47fce0cca375c188bed35267edf47c6f981a))
+
 ## [0.0.11311](///compare/v0.0.11310...v0.0.11311) (2026-04-29)
 
 ## [0.0.11310](///compare/v0.0.11309...v0.0.11310) (2026-04-29)
