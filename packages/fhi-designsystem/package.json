@@ -2,7 +2,7 @@
   "title": "dafn-dummy-package",
   "author": "FHI Designsystem team",
   "name": "@fhidev/dafn-dummy-package",
-  "version": "0.0.11309",
+  "version": "0.0.11313",
   "description": "The official design system for the Norwegian Institute of Public Health implemented as web components",
   "keywords": [
     "fhi",
@@ -62,7 +62,7 @@
     "@esm-bundle/chai": "~4.3.4-fix.0",
     "@open-wc/testing": "~4.0.0",
     "@playwright/test": "^1.51.1",
-    "@release-it/conventional-changelog": "10.0.2",
+    "@release-it/conventional-changelog": "10.0.6",
     "@storybook/addon-actions": "~8.3.6",
     "@storybook/addon-essentials": "~8.3.0",
     "@storybook/addon-links": "~8.3.0",
