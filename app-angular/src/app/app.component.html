@@ -1,0 +1,116 @@
+<div style="max-width: 600px; margin: 1rem 0">
+  <form [formGroup]="newUserForm" (ngSubmit)="handleNewUserSubmit()">
+    <fhi-flex gap="large" direction="column">
+      <fhi-flex align="center">
+        <fhi-title [level]="1">Register ny bruker:</fhi-title>
+        <fhi-tag [color]="'info'"> Tester Angular Lefser</fhi-tag>
+        <fhi-tooltip message="Dette er en test app for angular lefser">
+          <fhi-icon-circle-info></fhi-icon-circle-info>
+        </fhi-tooltip>
+      </fhi-flex>
+
+      <fhi-text-input label="Navn:" formControlName="name"></fhi-text-input>
+      <fhi-text-input label="E-post:" formControlName="email"></fhi-text-input>
+      <fhi-text-input label="Telefon:" formControlName="phone"></fhi-text-input>
+      <fhi-text-input
+        label="Adresse:"
+        formControlName="address"
+      ></fhi-text-input>
+      <fhi-date-input
+        label="Fødselsdato:"
+        formControlName="birthdate"
+      ></fhi-date-input>
+      <fhi-flex>
+        <fhi-radio
+          label="Mann"
+          name="gender"
+          value="male"
+          formControlName="gender"
+        ></fhi-radio>
+        <fhi-radio
+          label="Kvinne"
+          name="gender"
+          value="female"
+          formControlName="gender"
+        ></fhi-radio>
+        <fhi-radio
+          label="Annet"
+          name="gender"
+          value="other"
+          formControlName="gender"
+        ></fhi-radio>
+      </fhi-flex>
+      <fhi-checkbox
+        label="Jeg er ikke en Robot"
+        formControlName="robot"
+      ></fhi-checkbox>
+      <fhi-button>Register</fhi-button>
+    </fhi-flex>
+  </form>
+
+  <br />
+  <br />
+  <br />
+  <br />
+
+  <fhi-title [level]="1">Bruker som er registrert:</fhi-title>
+
+  <br />
+
+  <fhi-data-table>
+    <fhi-data-table-row variant="header">
+      <fhi-data-table-cell>Navn</fhi-data-table-cell>
+      <fhi-data-table-cell>E-post</fhi-data-table-cell>
+      <fhi-data-table-cell>Telefon</fhi-data-table-cell>
+      <fhi-data-table-cell>Adresse</fhi-data-table-cell>
+      <fhi-data-table-cell>Robot</fhi-data-table-cell>
+    </fhi-data-table-row>
+    <fhi-data-table-row>
+      <fhi-data-table-cell>{{ newUserForm.value.name }}</fhi-data-table-cell>
+      <fhi-data-table-cell>{{ newUserForm.value.email }}</fhi-data-table-cell>
+      <fhi-data-table-cell>{{ newUserForm.value.phone }}</fhi-data-table-cell>
+      <fhi-data-table-cell>{{ newUserForm.value.address }}</fhi-data-table-cell>
+      <fhi-data-table-cell>{{ newUserForm.value.robot }}</fhi-data-table-cell>
+    </fhi-data-table-row>
+  </fhi-data-table>
+
+  <br />
+  <br />
+  <hr />
+  <br />
+  <br />
+
+  <fhi-button
+    [color]="'accent'"
+    [variant]="'outlined'"
+    (click)="isFeedbackDialogOpen = true"
+  >
+    Gi tilbakemelding (åpne dialog)
+  </fhi-button>
+
+  <fhi-modal-dialog
+    close-button-label="Lukk"
+    heading="Tilbakemelding:"
+    [open]="isFeedbackDialogOpen"
+    (close)="isFeedbackDialogOpen = false"
+  >
+    <form
+      [formGroup]="feedbackForm"
+      (ngSubmit)="handleFeedbackSubmit()"
+      slot="body"
+    >
+      <fhi-flex direction="column">
+        <fhi-text-input label="Navn:" formControlName="name"></fhi-text-input>
+        <fhi-text-input
+          label="E-post:"
+          formControlName="email"
+        ></fhi-text-input>
+        <fhi-text-input
+          label="Tilbakemelding:"
+          formControlName="message"
+        ></fhi-text-input>
+        <fhi-button>Send</fhi-button>
+      </fhi-flex>
+    </form>
+  </fhi-modal-dialog>
+</div>
