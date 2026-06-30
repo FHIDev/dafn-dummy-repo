@@ -1,9 +1,49 @@
 on:
+  pull_request:
   merge_group:
 
 jobs:
-  test:
+  guard_merge:
     runs-on: ubuntu-latest
+    environment: production
     steps:
-      - uses: actions/checkout@v4
-      - run: exit 1
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Guard - BREAKING CHANGE should not be in body
+        id: guard_breaking_change
+        if: github.event_name == 'merge_group'
+        env:
+          LAST_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          if [[ "$LAST_COMMIT_MESSAGE" == *"BREAKING CHANGE"* ]]; then
+            echo "ERROR: Commit message should not include 'BREAKING CHANGE'."
+            echo ""
+            echo "Commit message:"
+            echo "$LAST_COMMIT_MESSAGE"
+            exit 1
+          fi
+        shell: bash
+
+      - name: Guard - Commit message should have valid prefix
+        id: guard_prefix
+        if: github.event_name == 'merge_group'
+        env:
+          LAST_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          if [[ ! "$LAST_COMMIT_MESSAGE" =~ ^(feat|fix|docs|chore):[[:space:]] ]]; then
+            echo "Commit message does not include a valid prefix."
+            echo "Valid prefixes are: feat:, fix:, docs:, chore:."
+            echo ""
+            echo "Commit message:"
+            echo "$LAST_COMMIT_MESSAGE"
+            exit 1
+          fi
+        shell: bash
