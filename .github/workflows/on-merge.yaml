@@ -25,6 +25,9 @@ jobs:
         run: |
           if [[ "$LAST_COMMIT_MESSAGE" == *"BREAKING CHANGE"* ]]; then
             echo "ERROR: Commit message should not include 'BREAKING CHANGE'."
+            echo ""
+            echo "Commit message:"
+            echo "$LAST_COMMIT_MESSAGE"
             exit 1
           fi
         shell: bash
@@ -38,6 +41,9 @@ jobs:
           if [[ ! "$LAST_COMMIT_MESSAGE" =~ ^(feat|fix|docs|chore):[[:space:]] ]]; then
             echo "Commit message does not include a valid prefix."
             echo "Valid prefixes are: feat:, fix:, docs:, chore:."
+            echo ""
+            echo "Commit message:"
+            echo "$LAST_COMMIT_MESSAGE"
             exit 1
           fi
         shell: bash
