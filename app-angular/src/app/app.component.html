@@ -44,6 +44,33 @@
         label="Jeg er ikke en Robot"
         formControlName="robot"
       ></fhi-checkbox>
+
+      <fhi-select
+        formControlName="country"
+        label="Land"
+        message="Dette er en valideringsmelding"
+        help-text="Dette er hjelpeteksten"
+      >
+        <fhi-select-item>Velg alternativ</fhi-select-item>
+        <fhi-select-item>Norge</fhi-select-item>
+        <fhi-select-item>Sverige</fhi-select-item>
+        <fhi-select-item>Danmark</fhi-select-item>
+      </fhi-select>
+
+      <fhi-grid>
+        <fhi-label>Label</fhi-label>
+        <fhi-body>Body</fhi-body>
+        <fhi-headline [level]="2">Headline</fhi-headline>
+        <fhi-display [level]="2">Headline</fhi-display>
+        <fhi-link href="https://example.com"> Ekstern lenke </fhi-link>
+      </fhi-grid>
+
+      <fhi-callout color="danger" heading="Danger">
+        For å si ifra om at noe kritisk har skjedd eller kan skje, ofte noe som
+        hindrer brukeren i å fortsette eller ikke kan angres
+        <fhi-icon-circle-info></fhi-icon-circle-info>
+      </fhi-callout>
+
       <fhi-button>Register</fhi-button>
     </fhi-flex>
   </form>

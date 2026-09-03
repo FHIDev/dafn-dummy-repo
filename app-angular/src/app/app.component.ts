@@ -25,8 +25,18 @@ import * as FHIAngular from '@fhidev/pull-request-designsystem-355/angular-wrapp
     FHIAngular.FhiRadioValueAccessor,
     FHIAngular.FhiTagAngularWrapper,
     FHIAngular.FhiTooltipAngularWrapper,
-    FHIAngular.FhiIconCircleInfoAngularWrapper
-],
+    FHIAngular.FhiIconCircleInfoAngularWrapper,
+    FHIAngular.FhiSelectAngularWrapper,
+    FHIAngular.FhiSelectItemAngularWrapper,
+    FHIAngular.FhiSelectValueAccessor,
+    FHIAngular.FhiLinkAngularWrapper,
+    FHIAngular.FhiLabelAngularWrapper,
+    FHIAngular.FhiHeadlineAngularWrapper,
+    FHIAngular.FhiGridAngularWrapper,
+    FHIAngular.FhiDisplayAngularWrapper,
+    FHIAngular.FhiCalloutAngularWrapper,
+    FHIAngular.FhiBodyAngularWrapper,
+  ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
@@ -42,6 +52,7 @@ export class AppComponent {
     birthdate: new FormControl('2000-01-01'),
     gender: new FormControl('male'),
     robot: new FormControl(false),
+    country: new FormControl(''),
   });
 
   handleNewUserSubmit() {
